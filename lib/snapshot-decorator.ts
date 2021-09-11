@@ -44,13 +44,14 @@ export class SnapshotDecorator {
   }
 
   descriptor(target, key, descriptor: PropertyDescriptor): PropertyDescriptor{
-    const original = descriptor.value;
+    const accessor = descriptor.value ? "value" : "get";
+    const original = descriptor[accessor];
     const self = this;
     const isAsync = checkIsAsync(original);
 
     if (typeof original === 'function') {
       if(isAsync){
-        descriptor.value = function(...args) {
+        descriptor[accessor] = function(...args) {
           try {
             const descriptorValue = this;
             const descriptorCaller = arguments.callee.caller;
@@ -87,7 +88,7 @@ export class SnapshotDecorator {
         }
       }
       else{
-        descriptor.value = function(...args) {
+        descriptor[accessor] = function(...args) {
           try {
             const descriptorCaller = arguments.callee.caller;
 
@@ -112,7 +113,7 @@ export class SnapshotDecorator {
       }
     }
 
-    descriptor.configurable = false;
+    descriptor.configurable = accessor == "get";
     return descriptor;
   }
 

@@ -1,7 +1,5 @@
 import firebase from 'firebase';
-import {GoogleAppAuthService} from '../src/bussiness/expo-services/GoogleAppAuth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as AppAuth from 'expo-app-auth';
 import { SnapshotAspect } from '../react-snap-testing/lib/snapshot-aspect';
 
 // config firebase to run snapshot aspect
@@ -20,13 +18,12 @@ if(firebase.apps.length === 0){
 // include module to inject
 export const namespaces = {
   // ...core,
-  GoogleAppAuthService, 
-  AsyncStorage, AppAuth
+  AsyncStorage
 }
 
 // exclude module to sync
 SnapshotAspect.excludedToSync = {
-  AsyncStorage, AppAuth
+  AsyncStorage
 }
 
 

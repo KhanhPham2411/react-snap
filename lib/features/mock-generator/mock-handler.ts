@@ -1,7 +1,6 @@
 import { snapshotEmitter } from '../../snapshot-decorator';
 import { ISnapshot } from '../../snapshot';
 import { MockGenerator } from './mock-generator';
-import { isFuture } from 'date-fns';
 
 export const snapshotMap = {};
 

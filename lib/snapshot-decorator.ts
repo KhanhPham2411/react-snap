@@ -2,7 +2,6 @@ import { ISnapshot, ICaller } from './snapshot';
 import { getProperties, generateUniqueId } from './utils';
 
 const EventEmitter =require('events');
-const callerId = require('caller-id');
 
 export const snapshotEmitter = new EventEmitter();
 
@@ -55,9 +54,8 @@ export class SnapshotDecorator {
           try {
             const descriptorValue = this;
             const descriptorCaller = arguments.callee.caller;
-            const caller = callerId.getData();
             const snapshotBefore = 
-              self._getSnapshotBefore(target, args, original, descriptorValue, caller, key) as ISnapshot;
+              self._getSnapshotBefore(target, args, original, descriptorValue, key) as ISnapshot;
 
             return new Promise((resolve) => {
               const tmp = {};
@@ -91,10 +89,9 @@ export class SnapshotDecorator {
       else{
         descriptor.value = function(...args) {
           try {
-            const caller = callerId.getData();
             const descriptorCaller = arguments.callee.caller;
 
-            const snapshotBefore = self._getSnapshotBefore(target, args, original, this, caller, key);
+            const snapshotBefore = self._getSnapshotBefore(target, args, original, this, key);
 
             const tmp = {};
             let result = {};
@@ -130,9 +127,8 @@ export class SnapshotDecorator {
 
     return {functionId, callerId};
   }
-  private _getSnapshotBefore(target: any, args: any[], originalFunc: any, descriptorSelf: any, caller: ICaller,  key: any) {
+  private _getSnapshotBefore(target: any, args: any[], originalFunc: any, descriptorSelf: any,  key: any) {
     const creationTime = new Date().valueOf();
-    caller.functionName = caller.functionName?.replace("$", "");
 
     const {functionId, callerId} = this._getId();
 
@@ -141,7 +137,6 @@ export class SnapshotDecorator {
       classObject: clone(descriptorSelf),
       creationTime,
       creationTimeString: new Date(creationTime).toUTCString(),
-      caller,
       functionName: key,
       isPrototype: target.isPrototype,
       className: target.name,

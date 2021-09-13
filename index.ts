@@ -1,5 +1,6 @@
 import { namespaces } from '../react-snap-testing-sync/config'
 import { SnapshotAspect } from './lib';
+import { WrapperComponent } from './lib/features/component-generator/wrapper-component';
 
 export function initReactSnapTesting(){
   Object.getOwnPropertyNames(namespaces).forEach((className) => {
@@ -17,3 +18,7 @@ export function initReactSnapTesting(){
 
 
 console.log("react-snap-testing");
+
+export {
+  WrapperComponent
+}

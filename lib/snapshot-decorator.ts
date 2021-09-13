@@ -24,7 +24,20 @@ export function clone(object){
   if(!object){
     return null;
   }
-  const stringifyObj = JSON.stringify(object);
+  if(object.$$typeof && String(object.$$typeof) === 'Symbol(react.element)'){
+    object = {
+      ...object,
+      _owner: null,
+      props: null
+    }
+  }
+  let stringifyObj = "";
+  try{
+    stringifyObj = JSON.stringify(object);
+  }catch{
+    debugger;
+  }
+  
   if(stringifyObj){
     return JSON.parse(stringifyObj);
   }
@@ -153,7 +166,7 @@ export class SnapshotDecorator {
       ...snapshotBefore,
       classObjectAfter: clone(descriptorSelf),
       inputAfter: clone(args),
-      output: result,
+      output: clone(result),
       elapsedTime: elapsedTime,
     };
     snapshotEmitter.emit("onSnapshotAfter", snapshotAfter, originalFunc);

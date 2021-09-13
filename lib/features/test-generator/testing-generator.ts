@@ -75,6 +75,6 @@ export class TestingGenerator {
   }
 
   static getPath(snapshot: ISnapshot, fileName="index"): string{
-    return `./${snapshotDirectory}/${snapshot.className}/${snapshot.functionName}/${fileName}.test.ts`;
+    return `./${snapshotDirectory}/${snapshot.className}/${snapshot.functionName}/default/${fileName}.test.ts`;
   }
 }

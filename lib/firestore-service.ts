@@ -63,14 +63,37 @@ export class FirestoreSevice {
       })
       .catch(err => console.error("FirestoreSevice.post: ", err));
   }
-  static get(className: string | undefined, functionName: string){
+  static get(className: string | undefined, functionName: string, limit=1){
     return new Promise<Object[]>((resolve) => {
       firebase.firestore()
       .collection('snapshots')
       .where("className", "==", className)
       .where("functionName", "==", functionName)
       .orderBy("creationTime", "desc")
-      .limit(1)
+      .limit(limit)
+      .get()
+      .then((response)=>{
+        let snapshots = response.docs.map((doc)=>{
+          const data = doc.data();
+          const id = doc.id;
+          const snapshot = this.buildSnapshot(data);
+          
+          return {id, ...snapshot};
+        });
+
+        resolve(snapshots);
+      })
+      .catch(error => console.log(error))
+    }) 
+  }
+
+  static getByClass(className: string | undefined, limit=1){
+    return new Promise<Object[]>((resolve) => {
+      firebase.firestore()
+      .collection('snapshots')
+      .where("className", "==", className)
+      .orderBy("creationTime", "desc")
+      .limit(limit)
       .get()
       .then((response)=>{
         let snapshots = response.docs.map((doc)=>{

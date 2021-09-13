@@ -14,6 +14,7 @@ export class SnapshotService {
     const caller = matches[1];
     return caller;
   }
+  
   static async fetch(className, functionName, update=false, testName: string|null=null): Promise<ISnapshot | null>{
     if(testName === null)
     {
@@ -73,6 +74,10 @@ export class SnapshotService {
     }
   }
 
+  static async list(className, functionName, limit=20): Promise<ISnapshot[] | null>{
+    const snapshots = await FirestoreSevice.get(className, functionName, limit) as ISnapshot[];
+    return snapshots;
+  }
   static async get(className, functionName): Promise<ISnapshot | null>{
     const snapshots = await FirestoreSevice.get(className, functionName);
     if(snapshots.length > 0){
@@ -109,7 +114,7 @@ export class SnapshotService {
     return fse.readJsonSync(path);
   }
   static getPath(className: string, functionName: string, fileName="index"): string{
-    return `./${snapshotDirectory}/${className}/${functionName}/${fileName}.json`;
+    return `./${snapshotDirectory}/${className}/${functionName}/default/${fileName}.json`;
   }
 }
 

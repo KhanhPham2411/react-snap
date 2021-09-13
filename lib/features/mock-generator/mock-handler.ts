@@ -29,7 +29,7 @@ export const register = () => {
       snapshotBefore.eval = doEval;
     }
   })
-  snapshotEmitter.on("onSnapshotAfter", (snapshotAfter: ISnapshot, originalFunc, callerFunc) => {
+  snapshotEmitter.on("onSnapshotAfter", (snapshotAfter: ISnapshot, originalFunc) => {
     if(snapshotAfter.callerId){
       const callerSnapshot: ISnapshot = snapshotMap[snapshotAfter.callerId];
 

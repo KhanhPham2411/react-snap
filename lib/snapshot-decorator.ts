@@ -54,7 +54,6 @@ export class SnapshotDecorator {
         descriptor[accessor] = function(...args) {
           try {
             const descriptorValue = this;
-            const descriptorCaller = arguments.callee.caller;
             const snapshotBefore = 
               self._getSnapshotBefore(target, args, original, descriptorValue, key) as ISnapshot;
 
@@ -72,7 +71,7 @@ export class SnapshotDecorator {
                     result = result.value??result;
                   }
                   
-                  const snapshotAfter = self._getSnapshotAfter(snapshotBefore, args, result, original, descriptorValue, descriptorCaller);
+                  const snapshotAfter = self._getSnapshotAfter(snapshotBefore, args, result, original, descriptorValue);
                   self.aspect(snapshotAfter);
     
                   resolve(result);
@@ -90,7 +89,6 @@ export class SnapshotDecorator {
       else{
         descriptor[accessor] = function(...args) {
           try {
-            const descriptorCaller = arguments.callee.caller;
 
             const snapshotBefore = self._getSnapshotBefore(target, args, original, this, key);
 
@@ -101,7 +99,7 @@ export class SnapshotDecorator {
             };
             tmp[snapshotBefore.functionId]();
 
-            const snapshotAfter = self._getSnapshotAfter(snapshotBefore, args, result, original, this, descriptorCaller);
+            const snapshotAfter = self._getSnapshotAfter(snapshotBefore, args, result, original, this);
             self.aspect(snapshotAfter);
 
             return result;
@@ -148,7 +146,7 @@ export class SnapshotDecorator {
     snapshotEmitter.emit("onSnapshotBefore", snapshotBefore, originalFunc, target);
     return snapshotBefore;
   }
-  private _getSnapshotAfter(snapshotBefore: any, args: any[], result: any, originalFunc: any, descriptorSelf: any, descriptorCaller) {
+  private _getSnapshotAfter(snapshotBefore: any, args: any[], result: any, originalFunc: any, descriptorSelf: any) {
     const creationTime = new Date().valueOf();
     const elapsedTime: number = creationTime - snapshotBefore.creationTime;
     const snapshotAfter: ISnapshot = {
@@ -158,7 +156,7 @@ export class SnapshotDecorator {
       output: result,
       elapsedTime: elapsedTime,
     };
-    snapshotEmitter.emit("onSnapshotAfter", snapshotAfter, originalFunc, descriptorCaller);
+    snapshotEmitter.emit("onSnapshotAfter", snapshotAfter, originalFunc);
     return snapshotAfter;
   }
 }

@@ -20,7 +20,7 @@ it('sync with SnapshotService', async () => {
       continue;
     }
     if(className === WrapperComponent.name){
-      await ComponentService.fetch();
+      await ComponentService.sync(mergedConfig);
       continue;
     }
 

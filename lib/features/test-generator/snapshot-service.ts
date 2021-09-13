@@ -101,7 +101,7 @@ export class SnapshotService {
     for(const functionName of methods){
       const snapshot = await SnapshotService.fetch(target.name, functionName, updateSnapshot);
       if(snapshot){
-        TestingGenerator.generate(snapshot, updateTest, config);
+        TestingGenerator.generate(snapshot, config, updateTest);
       }
     }
   }

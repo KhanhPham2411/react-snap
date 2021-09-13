@@ -7,7 +7,7 @@ const fspath = require("path");
 
 export class TestingGenerator {
   static templateString = fse.readFileSync(fspath.resolve(__dirname, "template.text"), "utf-8");
-  static generate(snapshot: ISnapshot, update=false, config){
+  static generate(snapshot: ISnapshot, config, update=false){
     const testPath = this.getPath(snapshot);
     if(fse.pathExistsSync(testPath) && update===false){
       return;

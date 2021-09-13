@@ -1,9 +1,9 @@
 import firebase from 'firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SnapshotAspect } from '../react-snap-testing/lib/snapshot-aspect';
+import { WrapperComponent } from './lib/features/component-generator/wrapper-component';
 
 // config firebase to run snapshot aspect
-export const firebaseConfig = {
+export let firebaseConfig = {
   apiKey: "AIzaSyDBIZTVV7DvCwyUwUHku4T8LZ3Bl34K4vc",
   authDomain: "react-realtime-testing.firebaseapp.com",
   projectId: "react-realtime-testing",
@@ -16,13 +16,13 @@ if(firebase.apps.length === 0){
 }
 
 // include module to inject
-export const namespaces = {
-  // ...core,
+export let namespaces = {
+  WrapperComponent,
   AsyncStorage
 }
 
 // exclude module to sync
-SnapshotAspect.excludedToSync = {
+export let excludedToSync = {
   AsyncStorage
 }
 

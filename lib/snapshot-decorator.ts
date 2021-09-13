@@ -1,5 +1,7 @@
 import { ISnapshot, ICaller } from './snapshot';
 import { getProperties, generateUniqueId } from './utils';
+import { Text } from 'react-native';
+import renderer from 'react-test-renderer';
 
 const EventEmitter =require('events');
 
@@ -25,12 +27,14 @@ export function clone(object){
     return null;
   }
   if(object.$$typeof && String(object.$$typeof) === 'Symbol(react.element)'){
-    object = {
-      ...object,
-      _owner: null,
-      props: null
-    }
+    // object = {
+    //   ...object,
+    //   _owner: null,
+    //   props: null
+    // }
+    return renderer.create(object).toJSON();
   }
+  
   let stringifyObj = "";
   try{
     stringifyObj = JSON.stringify(object);
@@ -156,7 +160,7 @@ export class SnapshotDecorator {
       callerId
     };
     
-    snapshotEmitter.emit("onSnapshotBefore", snapshotBefore, originalFunc, target);
+    snapshotEmitter.emit("onSnapshotBefore", snapshotBefore, originalFunc, target, descriptorSelf);
     return snapshotBefore;
   }
   private _getSnapshotAfter(snapshotBefore: any, args: any[], result: any, originalFunc: any, descriptorSelf: any) {

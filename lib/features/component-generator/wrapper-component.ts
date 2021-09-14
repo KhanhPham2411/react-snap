@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { original_component_predefined } from '../../utils';
+import React, { Component } from 'react';
 
+export const original_component_predefined = "__component__";
 export class WrapperComponent {
   static wrap(component) {
     return (...args) => {

@@ -8,7 +8,7 @@ const fspath = require("path");
 export class TestingGenerator {
   static templateString = fse.readFileSync(fspath.resolve(__dirname, "template.text"), "utf-8");
   static generate(snapshot: ISnapshot, config, update=false){
-    const testPath = this.getPath(snapshot);
+    const testPath = this.getPath(snapshot, config);
     if(fse.pathExistsSync(testPath) && update===false){
       return;
     }
@@ -74,7 +74,10 @@ export class TestingGenerator {
     return new Function("return `"+templateString +"`;").call(templateVars);
   }
 
-  static getPath(snapshot: ISnapshot, folderName="default"): string{
-    return `./${snapshotDirectory}/${snapshot.className}/${snapshot.functionName}/${folderName}/${snapshot.functionName}.test.ts`;
+  static getPath(snapshot: ISnapshot, config, folderName="default"): string{
+    return config.dirname + `/${snapshotDirectory}/${snapshot.className}/${snapshot.functionName}/${folderName}/${this.getFileName(snapshot)}`;
+  }
+  static getFileName(snapshot: ISnapshot){
+    return `${snapshot.functionName}.test.ts`;
   }
 }

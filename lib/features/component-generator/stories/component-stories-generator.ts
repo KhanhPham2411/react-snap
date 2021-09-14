@@ -15,8 +15,8 @@ export class ComponentStoriesGenerator extends TestingGenerator {
   }
 
 
-  static getPath(snapshot: ISnapshot, folderName="default"): string{
-    return `./${snapshotDirectory}/${snapshot.className}/${snapshot.functionName}/${folderName}/${snapshot.functionName}.stories.tsx`;
+  static getFileName(snapshot: ISnapshot): string{
+    return `${snapshot.functionName}.stories.tsx`;
   }
 }
 

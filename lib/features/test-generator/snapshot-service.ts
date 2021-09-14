@@ -3,7 +3,7 @@ import {ISnapshot} from '../../snapshot';
 import { getMethods, mergeMethods } from '../../utils';
 import { TestingGenerator } from './testing-generator';
 
-export let snapshotDirectory = "react-snap-testing-sync";
+export let snapshotDirectory = "__react-snap__";
 const fse = require('fs-extra');
 
 export class SnapshotService {
@@ -15,42 +15,21 @@ export class SnapshotService {
     return caller;
   }
   
-  static async fetch(className, functionName, update=false, testName: string|null=null): Promise<ISnapshot | null>{
-    if(testName === null)
-    {
-      const path = SnapshotService.getPath(className, functionName);
+  static async fetch(className, functionName, config, update=false): Promise<ISnapshot | null>{
+    const path = SnapshotService.getPath(className, functionName, config);
 
-      const pathExists = fse.pathExistsSync(path);
-      if(!pathExists || update===true){
-        const snapshot = await this.get(className, functionName);
-        if(snapshot){
-          SnapshotService.createSnapshotFile(snapshot, path)
-        }else{
-          return null;
-        }
+    const pathExists = fse.pathExistsSync(path);
+    if(!pathExists || update===true){
+      const snapshot = await this.get(className, functionName);
+      if(snapshot){
+        SnapshotService.createSnapshotFile(snapshot, path)
+      }else{
+        return null;
       }
-      
-      const snapshot = SnapshotService.readSnapshotFile(path);
-      return snapshot;
-    }else{
-      const caller = this.getCaller();
-      const callerPath = SnapshotService.getPath(className, functionName, caller)
-      const testPath = SnapshotService.getPath(className, functionName, testName??"");
-      if(!fse.pathExistsSync(testPath)){
-        fse.renameSync(callerPath, testPath);
-        fse.renameSync(TestingGenerator.getPath({className, functionName} as any, caller), 
-          TestingGenerator.getPath({className, functionName} as any, testName??""));
-      }
-      if(update===true){
-        const snapshot = await this.get(className, functionName);
-        if(snapshot){
-          SnapshotService.createSnapshotFile(snapshot, testPath)
-        }
-      }
-
-      const snapshot = SnapshotService.readSnapshotFile(testPath);
-      return snapshot;
     }
+    
+    const snapshot = SnapshotService.readSnapshotFile(path);
+    return snapshot;
   }
 
   static async resolveMockMethods(snapshot: ISnapshot | null, namespaces){
@@ -113,8 +92,11 @@ export class SnapshotService {
     const fse = require('fs-extra');
     return fse.readJsonSync(path);
   }
-  static getPath(className: string, functionName: string, folderName="default"): string{
-    return `./${snapshotDirectory}/${className}/${functionName}/${folderName}/${functionName}.data.json`;
+  static getPath(className: string, functionName: string, config, folderName="default"): string{
+    return config.dirname + `/${snapshotDirectory}/${className}/${functionName}/${folderName}/${this.getFileName(className, functionName)}`;
+  }
+  static getFileName(className: string, functionName: string){
+    return `${functionName}.data.json`;
   }
 }
 

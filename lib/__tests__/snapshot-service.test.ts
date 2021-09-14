@@ -12,7 +12,7 @@ describe("SnapshotService", () => {
     fse.pathExistsSync.mockReturnValue(true);
     jest.spyOn(SnapshotService, 'readSnapshotFile');
 
-    await SnapshotService.fetch(className, functionName, false);
+    await SnapshotService.fetch(className, functionName, {__dirname});
 
     expect(SnapshotService.readSnapshotFile).toHaveBeenCalled();
   });

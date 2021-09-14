@@ -21,8 +21,8 @@ export class ComponentTestsGenerator extends TestingGenerator {
 
     return resolved.join("\n\t\t");
   }
-  static getPath(snapshot: ISnapshot, folderName="default"): string{
-    return `./${snapshotDirectory}/${snapshot.className}/${snapshot.functionName}/${folderName}/${snapshot.functionName}.test.tsx`;
+  static getFileName(snapshot: ISnapshot): string{
+    return `${snapshot.functionName}.test.tsx`;
   }
 }
 

@@ -30,8 +30,8 @@ export class ComponentPropsGenerator extends TestingGenerator {
   }
 
 
-  static getPath(snapshot: ISnapshot, folderName="default"): string{
-    return `./${snapshotDirectory}/${snapshot.className}/${snapshot.functionName}/${folderName}/${snapshot.functionName}.props.ts`;
+  static getFileName(snapshot: ISnapshot): string{
+    return `${snapshot.functionName}.props.ts`;
   }
 }
 

@@ -7,6 +7,7 @@ import { WrapperComponentGenerator } from '../component-generator/wrapper/wrappe
 export class SyncService {
   static async sync(dirname){
     const config = this.ensureConfig(dirname);
+    config.dirname = __dirname;
 
     const updateTest = false;
     const updateSnapshot = false;

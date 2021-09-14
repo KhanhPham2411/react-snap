@@ -113,8 +113,8 @@ export class SnapshotService {
     const fse = require('fs-extra');
     return fse.readJsonSync(path);
   }
-  static getPath(className: string, functionName: string, fileName="index"): string{
-    return `./${snapshotDirectory}/${className}/${functionName}/default/${fileName}.json`;
+  static getPath(className: string, functionName: string, folderName="default"): string{
+    return `./${snapshotDirectory}/${className}/${functionName}/${folderName}/${functionName}.data.json`;
   }
 }
 

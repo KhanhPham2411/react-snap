@@ -1,13 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
 import { ${this.functionName}DefaultProps } from './${this.functionName}.props';
-import { components } from '../../../config';
+import { ${this.functionName} } from '../../../config';
 
 export default {
   title: 'WrapperComponent/${this.functionName}',
 };
 
-const { ${this.functionName} } = components;
 export const ${this.functionName}Default = () => {
   return (
     <View>

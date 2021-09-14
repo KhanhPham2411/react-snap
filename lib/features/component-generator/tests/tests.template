@@ -1,8 +1,7 @@
 import React from 'react';
-import { namespaces, SnapshotService } from "../../../../react-snap-testing/sync.test";
-import { CategoryDataItemDefaultProps } from './CategoryDataItem.props';
-import { CategoryDataItem } from '../../../config';
-import data from './CategoryDataItem.data.json';
+import { ${this.functionName}DefaultProps } from './${this.functionName}.props';
+import { ${this.functionName} } from '../../../../';
+import data from './${this.functionName}.data.json';
 import renderer from 'react-test-renderer';
 import { ReactTestRendererJSON } from 'react-test-renderer';
 
@@ -11,9 +10,7 @@ describe('<${this.functionName} />', () => {
     const snapshot = data;
     ${this.matchSnapshot}
 
-    SnapshotService.resolveMockMethods(snapshot, namespaces);
-
-    const actualComponent = renderer.create(<CategoryDataItem {...CategoryDataItemDefaultProps}/>).toJSON() as ReactTestRendererJSON;
+    const actualComponent = renderer.create(<${this.functionName} {...${this.functionName}DefaultProps}/>).toJSON() as ReactTestRendererJSON;
     expect(actualComponent).toMatchSnapshot();
   });
 })

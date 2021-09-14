@@ -12,9 +12,10 @@ export class ComponentService  {
   static async sync(config){
     const className = WrapperComponent.name;
     const snapshots = await FirestoreSevice.getByClass(className, 20) as ISnapshot[];
-    
+
     snapshots.every(item => {
       const path = SnapshotService.getPath(item.className, item.functionName, config);
+      
       const pathExists = fse.pathExistsSync(path);
       if(!pathExists){
         SnapshotService.createSnapshotFile(item, path);

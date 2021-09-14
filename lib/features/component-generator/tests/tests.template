@@ -1,0 +1,19 @@
+import React from 'react';
+import { namespaces, SnapshotService } from "../../../../react-snap-testing/sync.test";
+import { CategoryDataItemDefaultProps } from './CategoryDataItem.props';
+import { CategoryDataItem } from '../../../config';
+import data from './CategoryDataItem.data.json';
+import renderer from 'react-test-renderer';
+import { ReactTestRendererJSON } from 'react-test-renderer';
+
+describe('<${this.functionName} />', () => {
+  it("default match snapshot", async () => {
+    const snapshot = data;
+    ${this.matchSnapshot}
+
+    SnapshotService.resolveMockMethods(snapshot, namespaces);
+
+    const actualComponent = renderer.create(<CategoryDataItem {...CategoryDataItemDefaultProps}/>).toJSON() as ReactTestRendererJSON;
+    expect(actualComponent).toMatchSnapshot();
+  });
+})

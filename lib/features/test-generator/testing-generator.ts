@@ -74,7 +74,7 @@ export class TestingGenerator {
     return new Function("return `"+templateString +"`;").call(templateVars);
   }
 
-  static getPath(snapshot: ISnapshot, fileName="index"): string{
-    return `./${snapshotDirectory}/${snapshot.className}/${snapshot.functionName}/default/${fileName}.test.ts`;
+  static getPath(snapshot: ISnapshot, folderName="default"): string{
+    return `./${snapshotDirectory}/${snapshot.className}/${snapshot.functionName}/${folderName}/${snapshot.functionName}.test.ts`;
   }
 }

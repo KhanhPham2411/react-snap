@@ -11,7 +11,7 @@ export interface ICaller {
   evalOrigin: string;
 }
 export interface ISnapshot {
-  eval: any;
+  eval?: any;
   id?: string;
   className?: string;
   functionName: string;
@@ -28,7 +28,7 @@ export interface ISnapshot {
   elapsedTime: number;
   isPrototype: boolean;
   mocks: ISnapshot[];
-  mockFunction: any;
+  mockFunction?: any;
 }
 
 

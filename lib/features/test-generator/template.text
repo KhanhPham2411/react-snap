@@ -1,4 +1,4 @@
-import { namespaces, SnapshotService } from "../../../react-snap-testing/sync.test";
+import { namespaces, SnapshotService } from "../../../../react-snap-testing/sync.test";
 
 it("${this.className}.${this.functionName} with realtime data", async () => {
   const snapshot = await SnapshotService.fetch("${this.className}", "${this.functionName}");

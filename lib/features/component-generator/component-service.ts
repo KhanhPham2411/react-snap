@@ -4,6 +4,7 @@ import { SnapshotService } from '../test-generator/snapshot-service';
 import { TestingGenerator } from "../test-generator/testing-generator";
 import { ComponentPropsGenerator } from './props/component-props-generator';
 import { ComponentStoriesGenerator } from './stories/component-stories-generator';
+import { ComponentTestsGenerator } from './tests/component-tests-generator';
 
 const fse = require('fs-extra');
 
@@ -18,7 +19,7 @@ export class ComponentService  {
         SnapshotService.createSnapshotFile(item, path);
         ComponentPropsGenerator.generate(item, config);
         ComponentStoriesGenerator.generate(item, config)
-        //TestingGenerator.generate(item, config);
+        ComponentTestsGenerator.generate(item, config);
       }
     });
   }

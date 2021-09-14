@@ -1,5 +1,5 @@
 import data from './${this.functionName}.data.json';
 
-export const ${this.functionName}Props = {
+export const ${this.functionName}DefaultProps = {
   ${this.innerProps}
 }

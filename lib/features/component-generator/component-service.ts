@@ -3,6 +3,7 @@ import { WrapperComponent } from './wrapper-component';
 import { SnapshotService } from '../test-generator/snapshot-service';
 import { TestingGenerator } from "../test-generator/testing-generator";
 import { ComponentPropsGenerator } from './props/component-props-generator';
+import { ComponentStoriesGenerator } from './stories/component-stories-generator';
 
 const fse = require('fs-extra');
 
@@ -16,6 +17,7 @@ export class ComponentService  {
       if(!pathExists){
         SnapshotService.createSnapshotFile(item, path);
         ComponentPropsGenerator.generate(item, config);
+        ComponentStoriesGenerator.generate(item, config)
         //TestingGenerator.generate(item, config);
       }
     });

@@ -1,5 +1,5 @@
 import { ISnapshot, ICaller } from './snapshot';
-import { getProperties, generateUniqueId } from './utils';
+import { getProperties, generateUniqueId, original_function_predefined } from './utils';
 import { Text } from 'react-native';
 import renderer from 'react-test-renderer';
 
@@ -37,7 +37,9 @@ export function clone(object){
   
   let stringifyObj = "";
   try{
-    stringifyObj = JSON.stringify(object);
+    stringifyObj = JSON.stringify(object,function(key, value){
+      return (typeof value === 'function' ) ? original_function_predefined : value;
+    });
   }catch{
     debugger;
   }

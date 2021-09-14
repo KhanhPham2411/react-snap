@@ -1,6 +1,7 @@
 import { ISnapshot } from '../../../snapshot';
 import { snapshotDirectory } from '../../test-generator/snapshot-service';
 import { TestingGenerator } from '../../test-generator/testing-generator';
+import { original_function_predefined } from '../../../utils';
 
 const fse = require('fs-extra'); 
 const fspath = require("path");
@@ -18,6 +19,10 @@ export class ComponentPropsGenerator extends TestingGenerator {
   static resolveInnerProps(snapshot: ISnapshot) {
     const props = [];
     for (const key in snapshot.input[0]){
+      if(snapshot.input[0][key] === original_function_predefined){
+        props.push(`${key}: () => {}`);
+        continue;
+      }
       props.push(`${key}: data.input[0].${key}`);
     }
 

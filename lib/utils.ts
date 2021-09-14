@@ -1,6 +1,8 @@
 import {namespaces} from '../../react-snap-testing-sync/config';
 export const original_descriptor_predefined = "__descriptor__";
 export const original_component_predefined = "__component__";
+export const original_function_predefined = "__function__";
+
 export const getMethods = (target) =>
   Object.getOwnPropertyNames(target).filter(
     (item) => typeof target[item] === "function" 

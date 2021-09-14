@@ -17,8 +17,7 @@ if(firebase.apps.length === 0){
 
 // include module to inject
 export let namespaces = {
-  WrapperComponent,
-  AsyncStorage
+  WrapperComponent
 }
 
 // exclude module to sync

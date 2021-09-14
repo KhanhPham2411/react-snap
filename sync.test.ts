@@ -1,6 +1,6 @@
-import * as config from './config';
 import { SyncService } from './lib/features/sync/sync-service';
 
 it('sync with SnapshotService', async () => {
-  await SyncService.sync(config)
+  const config = SyncService.ensureConfig(__dirname);
+  console.log(config.namespaces);
 }, 30000)

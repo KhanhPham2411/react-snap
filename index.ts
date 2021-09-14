@@ -1,6 +1,6 @@
 import * as config from './config'
 import { SnapshotAspect } from './lib';
-import { WrapperComponent } from './lib/features/component-generator/wrapper-component';
+import { WrapperComponent } from './lib/features/component-generator/wrapper/wrapper-component';
 
 export function initReactSnapTesting(overrideConfig){
   const mergedConfig = {

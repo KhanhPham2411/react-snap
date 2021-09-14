@@ -1,9 +1,13 @@
 import { SnapshotService } from '../../sync';
-import { WrapperComponent } from '../component-generator/wrapper-component';
+import { WrapperComponent } from '../component-generator/wrapper/wrapper-component';
 import { ComponentService } from '../component-generator/component-service';
+import { ConfigGenerator } from './config-generator';
+import { WrapperComponentGenerator } from '../component-generator/wrapper/wrapper-component-generator';
 
 export class SyncService {
-  static async sync(config){
+  static async sync(dirname){
+    const config = this.ensureConfig(dirname);
+
     const updateTest = false;
     const updateSnapshot = false;
     
@@ -24,5 +28,13 @@ export class SyncService {
         await SnapshotService.sync(classTarget, updateTest, updateSnapshot, config);
       }
     }
+  }
+
+  static ensureConfig(dirname){
+    WrapperComponentGenerator.generate(dirname);
+    const configPath = ConfigGenerator.generate(dirname);
+    const config = require(configPath);
+
+    return config;
   }
 }

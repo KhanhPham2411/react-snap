@@ -32,7 +32,7 @@ export class SyncService {
   }
 
   static ensureConfig(dirname){
-    WrapperComponentGenerator.generate(dirname);
+    // WrapperComponentGenerator.generate(dirname);
     const configPath = ConfigGenerator.generate(dirname);
     const config = require(configPath);
 

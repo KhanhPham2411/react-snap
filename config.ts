@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { WrapperComponent } from './wrapper-component';
+import { WrapperComponent } from './lib/features/component-generator/wrapper/wrapper-component';
 
 // config firebase to run snapshot aspect
 export let firebaseConfig = {

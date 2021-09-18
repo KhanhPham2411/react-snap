@@ -13,6 +13,10 @@ export class ComponentService  {
     const className = WrapperComponent.name;
     const snapshots = await FirestoreSevice.getByClass(className, 20) as ISnapshot[];
 
+    this.syncSnapshots(snapshots, config);
+  }
+
+  static async syncSnapshots(snapshots, config){
     snapshots.every(item => {
       const path = SnapshotService.getPath(item.className, item.functionName, config);
       

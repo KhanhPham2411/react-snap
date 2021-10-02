@@ -6,7 +6,7 @@ export function initReactSnap(config){
   FirebaseService.ensureInitialized(config);
 
   const namespaces = config.namespaces;
-  console.log("initReactSnapTesting: ", config);
+  console.log("initReactSnap: ", config);
   
   SnapshotAspect.excludedToSync = config.excludedToSync;
   Object.getOwnPropertyNames(namespaces).forEach((className) => {

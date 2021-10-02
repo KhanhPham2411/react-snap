@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WrapperComponent } from './lib/features/component-generator/wrapper/wrapper-component';
 
 // config firebase to run snapshot aspect
@@ -17,11 +16,10 @@ if(firebase.apps.length === 0){
 
 // include module to inject
 export let namespaces = {
-  WrapperComponent,
-  AsyncStorage
+  WrapperComponent
 }
 
 // exclude module to sync
 export let excludedToSync = {
-  AsyncStorage
+  
 }

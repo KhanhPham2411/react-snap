@@ -3,6 +3,8 @@ import { WrapperComponent } from '../component-generator/wrapper/wrapper-compone
 import { ComponentService } from '../component-generator/component-service';
 import { ConfigGenerator } from './config-generator';
 import { WrapperComponentGenerator } from '../component-generator/wrapper/wrapper-component-generator';
+import firebase from 'firebase';
+import { FirebaseService } from '../../firebase-service';
 
 export class SyncService {
   static async sync(dirname){
@@ -35,6 +37,7 @@ export class SyncService {
     // WrapperComponentGenerator.generate(dirname);
     const configPath = ConfigGenerator.generate(dirname);
     const config = require(configPath);
+    FirebaseService.ensureInitialized(config.firebaseConfig)
 
     return config;
   }

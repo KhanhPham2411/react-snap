@@ -1,6 +1,5 @@
 import { ISnapshot, ICaller } from './snapshot';
 import { getProperties, generateUniqueId, original_function_predefined } from './utils';
-import { Text } from 'react-native';
 import renderer from 'react-test-renderer';
 
 const EventEmitter =require('events');

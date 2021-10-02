@@ -1,7 +1,6 @@
-import firebase from 'firebase';
-import { WrapperComponent } from './lib/features/component-generator/wrapper/wrapper-component';
+import { WrapperComponent } from './';
+import { initReactSnap } from './';
 
-// config firebase to run snapshot aspect
 export let firebaseConfig = {
   apiKey: "AIzaSyDBIZTVV7DvCwyUwUHku4T8LZ3Bl34K4vc",
   authDomain: "react-realtime-testing.firebaseapp.com",
@@ -10,16 +9,22 @@ export let firebaseConfig = {
   messagingSenderId: "503807435638",
   appId: "1:503807435638:web:c06eef72eb6e257408d057"
 };
-if(firebase.apps.length === 0){
-  firebase.initializeApp(firebaseConfig);
-}
 
 // include module to inject
 export let namespaces = {
   WrapperComponent
 }
 
+
 // exclude module to sync
 export let excludedToSync = {
   
+}
+
+export const init = () => {
+  initReactSnap({
+    firebaseConfig,
+    namespaces,
+    excludedToSync
+  })
 }

@@ -1,6 +1,9 @@
 import { SnapshotAspect } from '../../../lib';
+import firebase from 'firebase';
+import { FirebaseService } from '../../firebase-service';
 
 export function initReactSnap(config){
+  FirebaseService.ensureInitialized(config);
 
   const namespaces = config.namespaces;
   console.log("initReactSnapTesting: ", config);

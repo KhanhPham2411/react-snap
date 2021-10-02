@@ -27,11 +27,11 @@ it("test context", async () => {
   }
 
   const funcString = MyBussinessLogic.add.toString();
-  const self = this;
+  const self = {} as any;
   const args = [1, 2]
   self.eval = MyBussinessLogic.prototype.getEval();
-  const result = await MockGenerator.mockFunction(funcString, self.eval).apply(self, args);
-  console.log(result);
+  // const result = await MockGenerator.mockFunction(funcString, self.eval).apply(self, args);
+  // console.log(result);
 
   // const result = MyBussinessLogic.prototype.doMock(funcString, this, [1, 2]);
   // console.log(result)

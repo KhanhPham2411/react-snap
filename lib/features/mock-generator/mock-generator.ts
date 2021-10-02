@@ -1,4 +1,4 @@
-import { AnyAction } from "redux";
+
 
 export class MockGenerator  {
   static getClosure(funcString, doEval){

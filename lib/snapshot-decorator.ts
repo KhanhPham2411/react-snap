@@ -43,7 +43,7 @@ export function clone(object){
     debugger;
   }
   
-  if(stringifyObj){
+  if(stringifyObj && stringifyObj !== `"${original_function_predefined}"`){
     return JSON.parse(stringifyObj);
   }
   const properties = getProperties(object);

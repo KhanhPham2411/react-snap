@@ -13,16 +13,13 @@ describe("aspect injection should work :))", () => {
       this.plus = 1;
       return result;
     }
-    async doMock(func, self, args) {
-      self.eval = function(name) { return eval(name) }
-      return func.apply(self, args);
-    }
-    getEval(){
-      return function(name) { return eval(name) };
-    }
+
+    // getEval(){
+    //   return function(name) { return eval(name) };
+    // }
 
     static async addAsync(a, b) {
-      const test = this.add(a, b);
+      // const test = this.add(a, b);
       const test3 = this.add(a, b);
       const test2 = await this.power(2, 1);
       expect(test2).toEqual(4);
@@ -44,7 +41,7 @@ describe("aspect injection should work :))", () => {
       expect(snapshot.classObjectAfter.plus).toEqual(1);
       expect(snapshot.isPrototype).toEqual(false);
       if(snapshot.functionName  === "addAsync"){
-        expect(snapshot.mocks.length).toEqual(4);
+        expect(snapshot.mocks.length).toEqual(2);
       }
     }
   

@@ -19,6 +19,8 @@ export class AspectInjection {
       const sourceDescriptor = Object.getOwnPropertyDescriptor(target, key);
       if(!target[`${original_descriptor_predefined}${key}`]){
         target[`${original_descriptor_predefined}${key}`] = sourceDescriptor?.value;
+      }else{
+        return;
       }
 
       const decorator = new SnapshotDecorator(aspect);
@@ -42,6 +44,8 @@ export class AspectInjection {
           return descriptor;
         }
         Object.defineProperty(target, key, original_descriptor(target, key, sourceDescriptor));
+
+        target[`${original_descriptor_predefined}${key}`] = null;
       }
     });
   }

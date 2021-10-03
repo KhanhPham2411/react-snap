@@ -96,7 +96,7 @@ export class SnapshotGenerator {
     return config.dirname + `/${snapshotDirectory}/${className}/${functionName}/${folderName}/${this.getFileName(className, functionName)}`;
   }
   static getFileName(className: string, functionName: string){
-    return `${functionName}.data.json`;
+    return `${className}.${functionName}.data.json`;
   }
 }
 

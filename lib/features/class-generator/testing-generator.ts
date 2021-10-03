@@ -78,6 +78,6 @@ export class TestingGenerator {
     return config.dirname + `/${snapshotDirectory}/${snapshot.className}/${snapshot.functionName}/${folderName}/${this.getFileName(snapshot)}`;
   }
   static getFileName(snapshot: ISnapshot){
-    return `${snapshot.functionName}.test.ts`;
+    return `${snapshot.className}.${snapshot.functionName}.test.ts`;
   }
 }

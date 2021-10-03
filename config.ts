@@ -12,7 +12,7 @@ export let firebaseConfig = {
 
 // include module to inject
 export let namespaces = {
-  WrapperComponent
+  // WrapperComponent
 }
 
 

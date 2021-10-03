@@ -67,7 +67,7 @@ export class TestingGenerator {
       // }
     })
 
-    return resolved.join("\n\t");
+    return resolved.join("\n\t\t");
   }
 
   static fillTemplate(templateString, templateVars){

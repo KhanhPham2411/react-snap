@@ -11,6 +11,8 @@ export function checkIsAsync(func) {
 
   return !!(
     string.match(/async/) ||
+      // generator
+      string.match(/__generator/) ||
       // native
       string.match(/^async /) ||
       // babel (this may change, but hey...)

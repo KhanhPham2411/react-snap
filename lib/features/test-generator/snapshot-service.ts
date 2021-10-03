@@ -78,7 +78,7 @@ export class SnapshotService {
   static async syncMethods(target, updateTest, updateSnapshot, config){
     const methods = getMethods(target);
     for(const functionName of methods){
-      const snapshot = await SnapshotService.fetch(target.name, functionName, updateSnapshot);
+      const snapshot = await SnapshotService.fetch(target.name, functionName, config, updateSnapshot);
       if(snapshot){
         TestingGenerator.generate(snapshot, config, updateTest);
       }

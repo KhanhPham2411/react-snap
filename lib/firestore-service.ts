@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import {ISnapshot} from './snapshot';
-import AsyncLock = require('async-lock');
+
+const AsyncLock = require('async-lock');
 const lock = new AsyncLock();
 
 export class FirestoreSevice {

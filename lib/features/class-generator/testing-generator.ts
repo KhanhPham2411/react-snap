@@ -1,12 +1,12 @@
 import { ISnapshot } from "../../core/snapshot";
-import {snapshotDirectory} from './snapshot-service';
+import {snapshotDirectory} from './snapshot-generator';
 import {getFuncList, getFunc} from '../../core/utils';
 
 const fse = require('fs-extra'); 
 const fspath = require("path");
 
 export class TestingGenerator {
-  static templateString = fse.readFileSync(fspath.resolve(__dirname, "template.text"), "utf-8");
+  static templateString = fse.readFileSync(fspath.resolve(__dirname, "testing-generator.template"), "utf-8");
   static generate(snapshot: ISnapshot, config, update=false){
     const testPath = this.getPath(snapshot, config);
     if(fse.pathExistsSync(testPath) && update===false){

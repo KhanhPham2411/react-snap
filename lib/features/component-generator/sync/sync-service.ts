@@ -1,10 +1,10 @@
-import { SnapshotService } from '../../../sync';
 import { WrapperComponent } from '../wrapper/wrapper-component';
 import { ComponentService } from '../component-service';
 import { ConfigGenerator } from './config-generator';
 import { WrapperComponentGenerator } from '../wrapper/wrapper-component-generator';
 import firebase from 'firebase';
 import { FirebaseService } from '../../../core/firebase-service';
+import { SnapshotGenerator } from '../../class-generator/snapshot-generator';
 
 export class SyncService {
   static async sync(dirname){
@@ -28,7 +28,7 @@ export class SyncService {
   
       const classTarget = config.namespaces[className];
       if(classTarget){
-        await SnapshotService.sync(classTarget, updateTest, updateSnapshot, config);
+        await SnapshotGenerator.sync(classTarget, updateTest, updateSnapshot, config);
       }
     }
   }

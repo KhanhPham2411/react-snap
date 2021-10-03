@@ -1,12 +1,12 @@
-import { FirestoreSevice } from '../../firestore-service';
-import {ISnapshot} from '../../snapshot';
-import { getMethods, mergeMethods } from '../../utils';
+import { FirestoreSevice } from '../../core/firestore-service';
+import {ISnapshot} from '../../core/snapshot';
+import { getMethods, mergeMethods } from '../../core/utils';
 import { TestingGenerator } from './testing-generator';
 
 export let snapshotDirectory = "__react-snap__";
 const fse = require('fs-extra');
 
-export class SnapshotService {
+export class SnapshotGenerator {
   static getCaller(){
     Error.stackTraceLimit = 20;
     const stack = new Error().stack;
@@ -16,19 +16,19 @@ export class SnapshotService {
   }
   
   static async fetch(className, functionName, config, update=false): Promise<ISnapshot | null>{
-    const path = SnapshotService.getPath(className, functionName, config);
+    const path = SnapshotGenerator.getPath(className, functionName, config);
 
     const pathExists = fse.pathExistsSync(path);
     if(!pathExists || update===true){
       const snapshot = await this.get(className, functionName);
       if(snapshot){
-        SnapshotService.createSnapshotFile(snapshot, path)
+        SnapshotGenerator.createSnapshotFile(snapshot, path)
       }else{
         return null;
       }
     }
     
-    const snapshot = SnapshotService.readSnapshotFile(path);
+    const snapshot = SnapshotGenerator.readSnapshotFile(path);
     return snapshot;
   }
 
@@ -78,7 +78,7 @@ export class SnapshotService {
   static async syncMethods(target, updateTest, updateSnapshot, config){
     const methods = getMethods(target);
     for(const functionName of methods){
-      const snapshot = await SnapshotService.fetch(target.name, functionName, config, updateSnapshot);
+      const snapshot = await SnapshotGenerator.fetch(target.name, functionName, config, updateSnapshot);
       if(snapshot){
         TestingGenerator.generate(snapshot, config, updateTest);
       }

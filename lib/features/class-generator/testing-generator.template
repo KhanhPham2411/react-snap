@@ -5,7 +5,7 @@ const data = require('./get.data.json');
 const { namespaces } = config;
 
 it("${this.className}.${this.functionName} with realtime data", async () => {
-  const snapshot = await SnapshotService.fetch("${this.className}", "${this.functionName}");
+  const snapshot = data;
   ${this.matchSnapshot}
 
   SnapshotService.resolveMockMethods(snapshot, namespaces);

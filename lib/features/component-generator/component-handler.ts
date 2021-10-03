@@ -1,6 +1,6 @@
-import { snapshotEmitter } from '../../snapshot-decorator';
-import { ISnapshot } from '../../snapshot';
-import { original_component_predefined } from '../../utils';
+import { snapshotEmitter } from '../../core/snapshot-decorator';
+import { ISnapshot } from '../../core/snapshot';
+import { original_component_predefined } from '../../core/utils';
 
 
 export const register = () => {

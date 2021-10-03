@@ -1,6 +1,6 @@
 import { FirestoreSevice, ISnapshot } from "../..";
 import { WrapperComponent } from './wrapper/wrapper-component';
-import { SnapshotService, snapshotDirectory } from '../class-generator/snapshot-service';
+import { SnapshotGenerator, snapshotDirectory } from '../class-generator/snapshot-generator';
 import { TestingGenerator } from "../class-generator/testing-generator";
 import { ComponentPropsGenerator } from './props/component-props-generator';
 import { ComponentStoriesGenerator } from './stories/component-stories-generator';
@@ -18,11 +18,11 @@ export class ComponentService  {
 
   static async syncSnapshots(snapshots, config){
     snapshots.every(item => {
-      const path = SnapshotService.getPath(item.className, item.functionName, config);
+      const path = SnapshotGenerator.getPath(item.className, item.functionName, config);
       
       const pathExists = fse.pathExistsSync(path);
       if(!pathExists){
-        SnapshotService.createSnapshotFile(item, path);
+        SnapshotGenerator.createSnapshotFile(item, path);
         ComponentPropsGenerator.generate(item, config);
         ComponentStoriesGenerator.generate(item, config)
         ComponentTestsGenerator.generate(item, config);

@@ -1,4 +1,4 @@
-import {SnapshotService} from '../features/class-generator/snapshot-service';
+import {SnapshotGenerator} from '../features/class-generator/snapshot-generator';
 const fse = require('fs-extra')
 
 jest.mock('../firestore-service.ts');
@@ -10,10 +10,10 @@ describe("SnapshotService", () => {
     const functionName = "functionTest";
     
     fse.pathExistsSync.mockReturnValue(true);
-    jest.spyOn(SnapshotService, 'readSnapshotFile');
+    jest.spyOn(SnapshotGenerator, 'readSnapshotFile');
 
-    await SnapshotService.fetch(className, functionName, {__dirname});
+    await SnapshotGenerator.fetch(className, functionName, {__dirname});
 
-    expect(SnapshotService.readSnapshotFile).toHaveBeenCalled();
+    expect(SnapshotGenerator.readSnapshotFile).toHaveBeenCalled();
   });
 });

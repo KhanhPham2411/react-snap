@@ -1,4 +1,4 @@
-import {AspectInjection} from '../aspect-injection';
+import {AspectInjection} from '../core/aspect-injection';
 import {ISnapshot} from '../snapshot';
 
 describe("aspect injection should work :))", () => {

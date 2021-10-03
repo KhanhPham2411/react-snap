@@ -1,4 +1,8 @@
-import { namespaces, SnapshotService } from "../../../../react-snap-testing/sync.test";
+import * as config from "../../../../config";
+import { SnapshotService } from '../../../../sync.test';
+
+const data = require('./get.data.json');
+const { namespaces } = config;
 
 it("${this.className}.${this.functionName} with realtime data", async () => {
   const snapshot = await SnapshotService.fetch("${this.className}", "${this.functionName}");

@@ -1,6 +1,6 @@
-import { ISnapshot } from "../../snapshot";
+import { ISnapshot } from "../../core/snapshot";
 import {snapshotDirectory} from './snapshot-service';
-import {getFuncList, getFunc} from '../../utils';
+import {getFuncList, getFunc} from '../../core/utils';
 
 const fse = require('fs-extra'); 
 const fspath = require("path");

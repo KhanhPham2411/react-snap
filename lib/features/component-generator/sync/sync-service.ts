@@ -1,10 +1,10 @@
-import { SnapshotService } from '../../sync';
-import { WrapperComponent } from '../component-generator/wrapper/wrapper-component';
-import { ComponentService } from '../component-generator/component-service';
+import { SnapshotService } from '../../../sync';
+import { WrapperComponent } from '../wrapper/wrapper-component';
+import { ComponentService } from '../component-service';
 import { ConfigGenerator } from './config-generator';
-import { WrapperComponentGenerator } from '../component-generator/wrapper/wrapper-component-generator';
+import { WrapperComponentGenerator } from '../wrapper/wrapper-component-generator';
 import firebase from 'firebase';
-import { FirebaseService } from '../../firebase-service';
+import { FirebaseService } from '../../../core/firebase-service';
 
 export class SyncService {
   static async sync(dirname){

@@ -1,4 +1,4 @@
-import { TestingGenerator } from "../test-generator/testing-generator";
+import { TestingGenerator } from "../../class-generator/testing-generator";
 
 const fse = require('fs-extra'); 
 const fspath = require("path");

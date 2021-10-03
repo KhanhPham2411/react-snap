@@ -1,5 +1,5 @@
-import { snapshotEmitter } from '../../snapshot-decorator';
-import { ISnapshot } from '../../snapshot';
+import { snapshotEmitter } from '../../core/snapshot-decorator';
+import { ISnapshot } from '../../core/snapshot';
 import { MockGenerator } from './mock-generator';
 
 export const snapshotMap = {};

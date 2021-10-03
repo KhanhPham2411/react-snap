@@ -1,7 +1,7 @@
 import { FirestoreSevice, ISnapshot } from "../..";
 import { WrapperComponent } from './wrapper/wrapper-component';
-import { SnapshotService, snapshotDirectory } from '../test-generator/snapshot-service';
-import { TestingGenerator } from "../test-generator/testing-generator";
+import { SnapshotService, snapshotDirectory } from '../class-generator/snapshot-service';
+import { TestingGenerator } from "../class-generator/testing-generator";
 import { ComponentPropsGenerator } from './props/component-props-generator';
 import { ComponentStoriesGenerator } from './stories/component-stories-generator';
 import { ComponentTestsGenerator } from './tests/component-tests-generator';

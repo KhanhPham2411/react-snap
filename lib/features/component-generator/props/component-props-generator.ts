@@ -1,6 +1,6 @@
 import { ISnapshot } from '../../../snapshot';
-import { snapshotDirectory } from '../../test-generator/snapshot-service';
-import { TestingGenerator } from '../../test-generator/testing-generator';
+import { snapshotDirectory } from '../../class-generator/snapshot-service';
+import { TestingGenerator } from '../../class-generator/testing-generator';
 import { original_function_predefined } from '../../../utils';
 
 const fse = require('fs-extra'); 

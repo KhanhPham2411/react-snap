@@ -1,5 +1,3 @@
-
-
 export class MockGenerator  {
   static getClosure(funcString, doEval){
     let tempString = funcString;

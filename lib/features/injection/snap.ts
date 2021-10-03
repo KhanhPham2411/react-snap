@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import { FirebaseService } from '../../firebase-service';
 
 export function initReactSnap(config){
-  FirebaseService.ensureInitialized(config);
+  FirebaseService.ensureInitialized(config.firebaseConfig);
 
   const namespaces = config.namespaces;
   console.log("initReactSnap: ", config);

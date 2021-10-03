@@ -1,0 +1,32 @@
+import { 
+  firebaseConfig as _firebaseConfig, 
+  namespaces as _namespaces, 
+  excludedToSync as _excludedToSync 
+} from '../react-snap/config';
+import { initReactSnap } from '../react-snap';
+
+const firebaseConfig = {
+  ..._firebaseConfig,
+
+}
+const namespaces = {
+  // ..._namespaces,
+
+}
+const excludedToSync = {
+  //..._excludedToSync,
+
+}
+export {
+  firebaseConfig,
+  namespaces,
+  excludedToSync,
+}
+
+export const init = () => {
+  initReactSnap({
+    firebaseConfig,
+    namespaces,
+    excludedToSync
+  })
+}

@@ -4,7 +4,7 @@ const fse = require('fs-extra');
 const fspath = require("path");
 
 export class ConfigGenerator extends TestingGenerator {
-  static templateString = fse.readFileSync(fspath.resolve(__dirname, "config.template"), "utf-8");
+  static templateString = fse.readFileSync(fspath.resolve(__dirname, "config-generator.template"), "utf-8");
 
   static generate(dirname){
     const configPath = dirname + this.getPath();

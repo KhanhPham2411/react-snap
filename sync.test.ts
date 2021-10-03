@@ -1,4 +1,4 @@
-import { SyncService } from './lib/features/component-generator/sync/sync-service';
+import { SyncService } from './lib/features/sync/sync-service';
 import { SnapshotGenerator } from './lib/features/class-generator/snapshot-generator';
 
 it('sync with SnapshotService', async () => {

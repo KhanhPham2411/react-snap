@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ConfigGenerator } from '../sync/config-generator';
+import { ConfigGenerator } from '../../sync/config/config-generator';
 
 const fse = require('fs-extra'); 
 const fspath = require("path");

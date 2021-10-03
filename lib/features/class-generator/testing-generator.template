@@ -1,7 +1,7 @@
 import * as config from "../../../../config";
 import { SnapshotService } from '../../../../sync.test';
 
-const data = require('./get.data.json');
+const data = require('./${this.className}.${this.functionName}.data.json');
 const { namespaces } = config;
 
 describe("${this.className}.${this.functionName}", () =>  {

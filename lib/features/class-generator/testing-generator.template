@@ -1,5 +1,5 @@
 import * as config from "../../../../react-snap.config";
-import { SnapshotService } from '../../../../sync.test';
+import { SnapshotService } from '../../../../react-snap.test';
 
 const data = require('./${this.className}.${this.functionName}.data.json');
 const { namespaces } = config;

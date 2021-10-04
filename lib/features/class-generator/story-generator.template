@@ -12,5 +12,5 @@ const main = async () => {
 
 main();
 // run command
-// ts-node ${this.path}
+// ts-node "${this.path}"
 

@@ -1,8 +1,9 @@
-import * as config from "../../../../config";
+import * as config from "../../../../react-snap.config";
 import { SnapshotService } from '../../../../sync.test';
 
 const data = require('./${this.className}.${this.functionName}.data.json');
 const { namespaces } = config;
+const { ${this.className} } = namespaces;
 
 describe("${this.className}.${this.functionName}", () =>  {
   it("default", async () => {

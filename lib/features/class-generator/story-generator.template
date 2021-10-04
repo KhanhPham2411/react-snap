@@ -1,0 +1,16 @@
+import * as config from "../../../../react-snap.config";
+
+const { namespaces, initReactSnap } = config;
+const { ${this.className} } = namespaces;
+
+initReactSnap()
+
+const main = async () => {
+  const output = await ${this.target}.${this.functionName}();
+  console.log(output);
+}
+
+main();
+// run command
+// ts-node ${this.path}
+

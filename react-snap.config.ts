@@ -1,5 +1,5 @@
-import { WrapperComponent } from './';
-import { initReactSnap } from './';
+import { WrapperComponent } from '.';
+import { initReactSnap as _initReactSnap } from '.';
 
 export let firebaseConfig = {
   apiKey: "AIzaSyDBIZTVV7DvCwyUwUHku4T8LZ3Bl34K4vc",
@@ -21,8 +21,8 @@ export let excludedToSync = {
   
 }
 
-export const init = () => {
-  initReactSnap({
+export const initReactSnap = () => {
+  _initReactSnap({
     firebaseConfig,
     namespaces,
     excludedToSync

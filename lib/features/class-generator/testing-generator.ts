@@ -26,34 +26,13 @@ export class TestingGenerator {
       target
     });
   }
-  static resolveMock(snapshot: ISnapshot, config: any) {
-    const { namespaces } = config;
-    const funcString: string = getFunc(namespaces, snapshot.className, snapshot.functionName).toString();
-    const mock: string[] = [];
-    const funcList = getFuncList(namespaces);
-    if(snapshot.functionName === "getLatestAuthInfoAsync"){
-      debugger;
-    }
-    for(const func of funcList){
-      let classMock = func.split(".")[0];
-      const functionMock = func.split(".")[1];
-
-      if(funcString.indexOf(func) > -1 || funcString.indexOf(`this.${functionMock}`) > -1){
-        const mockTemplate = 
-        `const ${functionMock}Snapshot = await SnapshotService.fetch("${classMock}", "${functionMock}");\n\tjest.spyOn(namespaces["${classMock}"],  "${functionMock}").mockReturnValue(${functionMock}Snapshot?.output);\n\t`;
-        mock.push(mockTemplate);
-      }
-    }
-    
-    return mock.join("");
-  }
 
   static resolveTarget(snapshot: ISnapshot){
     if(snapshot.isPrototype){
-      return `namespaces["${snapshot.className}"].prototype`;
+      return `${snapshot.className}.prototype`;
     }
 
-    return `namespaces["${snapshot.className}"]`;
+    return `${snapshot.className}`;
   }
 
   static resolveMatchSnapshotTemplate(snapshot: ISnapshot){

@@ -21,7 +21,7 @@ export class ConfigGenerator extends TestingGenerator {
   }  
 
   static getPath(): string{
-    return `/config.ts`;
+    return `/react-snap.config.ts`;
   }
 }
 

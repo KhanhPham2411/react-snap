@@ -10,7 +10,7 @@ describe("${this.className}.${this.functionName}", () =>  {
   it("default", async () => {
     ${this.matchSnapshot}
 
-    SnapshotService.resolveMockMethods(snapshot, namespaces);
+    SnapshotService.resolveMockMethods(snapshot as any, namespaces);
     
     const actualOutput = await ${this.target}.${this.functionName}.apply(
       snapshot?.classObject,

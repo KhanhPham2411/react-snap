@@ -3,7 +3,7 @@ import {ISnapshot} from '../../core/snapshot';
 import { getMethods, mergeMethods } from '../../core/utils';
 import { StoryGenerator } from './story-generator';
 import { TestingGenerator } from './testing-generator';
-import { ClassPropsGenerator } from './props/component-props-generator';
+import { ClassPropsGenerator } from './props/class-props-generator';
 
 export let snapshotDirectory = "__react-snap__";
 const fse = require('fs-extra');

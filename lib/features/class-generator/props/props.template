@@ -1,0 +1,5 @@
+const data = require('./${this.className}.${this.functionName}.data.json');
+
+${this.typeInterfaces}
+
+export const ${this.className}${this.functionName}Props = data as RootObject;

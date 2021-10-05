@@ -3,6 +3,7 @@ import {ISnapshot} from '../../core/snapshot';
 import { getMethods, mergeMethods } from '../../core/utils';
 import { StoryGenerator } from './story-generator';
 import { TestingGenerator } from './testing-generator';
+import { ClassPropsGenerator } from './props/component-props-generator';
 
 export let snapshotDirectory = "__react-snap__";
 const fse = require('fs-extra');
@@ -82,14 +83,15 @@ export class SnapshotGenerator {
       let snapshot = await SnapshotGenerator.fetch(target.name, functionName, config, updateSnapshot);
       if(snapshot){
         TestingGenerator.generate(snapshot, config, updateTest);
+        ClassPropsGenerator.generate(snapshot, config, updateTest)
       }else{
         snapshot = {
           className: target.name,
           functionName: functionName
         } as any;
-
-        StoryGenerator.generate(snapshot, config, updateTest);
       }
+      
+      StoryGenerator.generate(snapshot, config, updateTest);
     }
   }
   static createSnapshotFile(object, path: string){

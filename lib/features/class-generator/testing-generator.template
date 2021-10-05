@@ -1,13 +1,13 @@
 import * as config from "../../../../react-snap.config";
 import { SnapshotService } from '../../../../react-snap.test';
+import { ${this.className}${this.functionName}Props } from './${this.className}.${this.functionName}.props';
 
-const data = require('./${this.className}.${this.functionName}.data.json');
 const { namespaces } = config;
 const { ${this.className} } = namespaces;
+const snapshot = ${this.className}${this.functionName}Props;
 
 describe("${this.className}.${this.functionName}", () =>  {
   it("default", async () => {
-    const snapshot = data;
     ${this.matchSnapshot}
 
     SnapshotService.resolveMockMethods(snapshot, namespaces);

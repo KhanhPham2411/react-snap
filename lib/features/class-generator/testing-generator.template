@@ -1,5 +1,5 @@
 import * as config from "../../../../react-snap.config";
-import { SnapshotService } from '../../../../react-snap.test';
+import { SnapshotGenerator } from '../../../../react-snap.test';
 import { ${this.className}${this.functionName}Props } from './${this.className}.${this.functionName}.props';
 
 const { namespaces } = config;
@@ -10,7 +10,7 @@ describe("${this.className}.${this.functionName}", () =>  {
   it("default", async () => {
     ${this.matchSnapshot}
 
-    SnapshotService.resolveMockMethods(snapshot as any, namespaces);
+    SnapshotGenerator.resolveMockMethods(snapshot as any, namespaces);
     
     const actualOutput = await ${this.target}.${this.functionName}.apply(
       snapshot?.classObject,

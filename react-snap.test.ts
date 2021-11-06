@@ -6,6 +6,6 @@ it('sync with SnapshotService', async () => {
 }, 30000)
 
 export {
-  SnapshotGenerator as SnapshotService,
+  SnapshotGenerator,
   SyncService
 }

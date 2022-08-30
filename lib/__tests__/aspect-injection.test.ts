@@ -1,10 +1,10 @@
 import {AspectInjection} from '../core/aspect-injection';
-import {ISnapshot} from '../snapshot';
+import {ISnapshot} from '../core/snapshot';
 
 describe("aspect injection should work :))", () => {
   class MyBussinessLogic {
     plus = 2;
-    add(a, b) {
+    add(a: number, b) {
       this.plus = 2;
       const result = a + b + this.plus
       this.plus = 1;

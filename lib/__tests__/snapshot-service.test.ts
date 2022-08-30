@@ -1,7 +1,7 @@
 import {SnapshotGenerator} from '../features/class-generator/snapshot-generator';
 const fse = require('fs-extra')
 
-jest.mock('../firestore-service.ts');
+jest.mock('../core/firestore-service.ts');
 jest.mock('fs-extra');
 
 describe("SnapshotService", () => {

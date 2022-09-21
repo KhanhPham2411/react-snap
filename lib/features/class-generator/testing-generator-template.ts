@@ -15,10 +15,10 @@
 // }
 
 export const templateString = `
-import * as \${this.fileNameFormated} from "../\${this.fileName}"
+import * as \${this.fileNameFormated} from "../../\${this.fileName}"
 const snapshot = {} as any;
 
-describe("\${this.className}.\${this.functionName}", () =>  {
+describe("\${this.fileNameFormated}.\${this.functionName}", () =>  {
   it("default", async () => {
     const actualOutput = await \${this.fileNameFormated}.\${this.functionName}.apply(
       snapshot?.classObject,

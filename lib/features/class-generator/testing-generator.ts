@@ -12,23 +12,25 @@ export class TestingGenerator {
     return templateString;
   }
   static generate(snapshot: ISnapshot, config, update = false) {
+    config.fileNameFormated = config.fileName.replace(/-(\w)/g, (match, p1) => p1.toUpperCase());
+
     const testPath = this.getPath(snapshot, config);
     if (fse.pathExistsSync(testPath) && update === false) {
-      return;
+      return testPath;
     }
 
     const resolvedTemplate = this.resolveTemplate(this.templateString, snapshot, config);
     fse.outputFileSync(testPath, resolvedTemplate);
+
+    return testPath;
   }
   static resolveTemplate(templateString, snapshot: ISnapshot, config) {
     const matchSnapshot = this.resolveMatchSnapshotTemplate(snapshot);
     const target = this.resolveTarget(snapshot);
-    const fileNameFormated = config.fileName.replace(/-(\w)/g, (match, p1) => p1.toUpperCase());
 
     return this.fillTemplate(templateString, {
       ...snapshot,
       ...config,
-      fileNameFormated,
       // matchSnapshot,
       target,
     });
@@ -64,12 +66,11 @@ export class TestingGenerator {
     if (config.snapshotDirectory == null) {
       config.snapshotDirectory = snapshotDirectory;
     }
-    return config.dirname + `/${config.snapshotDirectory}/${this.getFileName(snapshot, config)}`;
+    return (
+      config.dirname + `/${config.snapshotDirectory}/${config.fileNameFormated}/${this.getFileName(snapshot, config)}`
+    );
   }
   static getFileName(snapshot: ISnapshot, config) {
-    if (config.fileName == null) {
-      config.fileName = `${snapshot.className}.${snapshot.functionName}`;
-    }
-    return `${config.fileName}.test.ts`;
+    return `${snapshot.functionName}.test.ts`;
   }
 }

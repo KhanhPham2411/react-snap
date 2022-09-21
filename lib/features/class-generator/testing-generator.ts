@@ -23,10 +23,13 @@ export class TestingGenerator {
   static resolveTemplate(templateString, snapshot: ISnapshot, config) {
     const matchSnapshot = this.resolveMatchSnapshotTemplate(snapshot);
     const target = this.resolveTarget(snapshot);
+    const fileNameFormated = config.fileName.replace(/-(\w)/g, (match, p1) => p1.toUpperCase());
 
     return this.fillTemplate(templateString, {
       ...snapshot,
-      matchSnapshot,
+      ...config,
+      fileNameFormated,
+      // matchSnapshot,
       target,
     });
   }
@@ -61,14 +64,12 @@ export class TestingGenerator {
     if (config.snapshotDirectory == null) {
       config.snapshotDirectory = snapshotDirectory;
     }
-    return (
-      config.dirname +
-      `/${config.snapshotDirectory}/${snapshot.className}/${snapshot.functionName}/${folderName}/${this.getFileName(
-        snapshot
-      )}`
-    );
+    return config.dirname + `/${config.snapshotDirectory}/${this.getFileName(snapshot, config)}`;
   }
-  static getFileName(snapshot: ISnapshot) {
-    return `${snapshot.className}.${snapshot.functionName}.test.ts`;
+  static getFileName(snapshot: ISnapshot, config) {
+    if (config.fileName == null) {
+      config.fileName = `${snapshot.className}.${snapshot.functionName}`;
+    }
+    return `${config.fileName}.test.ts`;
   }
 }

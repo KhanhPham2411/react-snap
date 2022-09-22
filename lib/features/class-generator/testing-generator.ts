@@ -1,6 +1,6 @@
 import { ISnapshot } from "../../core/snapshot";
 import { getFuncList, getFunc } from "../../core/utils";
-import { templateString } from "./testing-generator-template";
+import { functionTemplateString, methodTemplateString } from "./testing-generator-template";
 
 const fse = require("fs-extra");
 const fspath = require("path");
@@ -8,9 +8,6 @@ const fspath = require("path");
 export let snapshotDirectory = "__react-snap__";
 
 export class TestingGenerator {
-  static get templateString() {
-    return templateString;
-  }
   static generate(snapshot: ISnapshot, config, update = false) {
     config.fileNameFormated = config.fileName.replace(/-(\w)/g, (match, p1) => p1.toUpperCase());
 
@@ -19,16 +16,24 @@ export class TestingGenerator {
       return testPath;
     }
 
-    const resolvedTemplate = this.resolveTemplate(this.templateString, snapshot, config);
+    const resolvedTemplate = this.resolveTemplate(snapshot, config);
     fse.outputFileSync(testPath, resolvedTemplate);
 
     return testPath;
   }
-  static resolveTemplate(templateString, snapshot: ISnapshot, config) {
+  static resolveTemplate(snapshot: ISnapshot, config) {
     const matchSnapshot = this.resolveMatchSnapshotTemplate(snapshot);
     const target = this.resolveTarget(snapshot);
+    if (snapshot.className) {
+      return this.fillTemplate(methodTemplateString, {
+        ...snapshot,
+        ...config,
+        // matchSnapshot,
+        target,
+      });
+    }
 
-    return this.fillTemplate(templateString, {
+    return this.fillTemplate(functionTemplateString, {
       ...snapshot,
       ...config,
       // matchSnapshot,

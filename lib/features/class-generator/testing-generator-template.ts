@@ -14,16 +14,23 @@
 //   expect(actualOutput).toEqual(snapshot?.output);
 // }
 
-export const templateString = `
+export const functionTemplateString = `
 import * as \${this.fileNameFormated} from "../../\${this.fileName}"
 const snapshot = {} as any;
 
 describe("\${this.fileNameFormated}.\${this.functionName}", () =>  {
   it("default", async () => {
-    const actualOutput = await \${this.fileNameFormated}.\${this.functionName}.apply(
-      snapshot?.classObject,
-      snapshot?.input as any
-    );
+    const actualOutput = await \${this.fileNameFormated}.\${this.functionName}();
+    console.log(actualOutput);
+  });
+})`;
+export const methodTemplateString = `
+import { \${this.className} } from "../../\${this.fileName}"
+const snapshot = {} as any;
+
+describe("\${this.className}.\${this.functionName}", () =>  {
+  it("default", async () => {
+    const actualOutput = await \${this.className}.\${this.functionName}();
     console.log(actualOutput);
   });
 })`;

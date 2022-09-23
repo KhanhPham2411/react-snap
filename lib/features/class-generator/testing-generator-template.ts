@@ -30,7 +30,7 @@ const snapshot = {} as any;
 
 describe("\${this.className}.\${this.functionName}", () =>  {
   it("default", async () => {
-    const actualOutput = await \${this.className}.\${this.functionName}();
+    const actualOutput = await \${this.target}.\${this.functionName}();
     console.log(actualOutput);
   });
 })`;

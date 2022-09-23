@@ -24,12 +24,14 @@ export class TestingGenerator {
   static resolveTemplate(snapshot: ISnapshot, config) {
     const matchSnapshot = this.resolveMatchSnapshotTemplate(snapshot);
     const target = this.resolveTarget(snapshot);
+    const params = this.resolveParams(snapshot);
     if (snapshot.className) {
       return this.fillTemplate(methodTemplateString, {
         ...snapshot,
         ...config,
         // matchSnapshot,
         target,
+        params,
       });
     }
 
@@ -38,6 +40,7 @@ export class TestingGenerator {
       ...config,
       // matchSnapshot,
       target,
+      params,
     });
   }
 
@@ -47,6 +50,13 @@ export class TestingGenerator {
     }
 
     return `${snapshot.className}`;
+  }
+
+  static resolveParams(snapshot: ISnapshot) {
+    if (snapshot.params == null) {
+      return "";
+    }
+    return snapshot.params.map((i) => "null").join(",");
   }
 
   static resolveMatchSnapshotTemplate(snapshot: ISnapshot) {

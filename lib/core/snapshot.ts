@@ -28,4 +28,5 @@ export interface ISnapshot {
   isPrototype?: boolean;
   mocks?: ISnapshot[];
   mockFunction?: any;
+  params?: string[];
 }

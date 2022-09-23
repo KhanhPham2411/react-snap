@@ -1,7 +1,7 @@
 // import * as config from "../../../../react-snap.config";
 // import { SnapshotGenerator } from '../../../../react-snap.test';
 // import { \${this.className}\${this.functionName}Props } from './\${this.className}.\${this.functionName}.props';
-
+// const snapshot = {} as any;
 //const { namespaces } = config;
 //const { \${this.className} } = namespaces;
 //const snapshot = \${this.className}\${this.functionName}Props;
@@ -16,11 +16,11 @@
 
 export const functionTemplateString = `
 import * as \${this.fileNameFormated} from "../../\${this.fileName}"
-const snapshot = {} as any;
+
 
 describe("\${this.fileNameFormated}.\${this.functionName}", () =>  {
   it("default", async () => {
-    const actualOutput = await \${this.fileNameFormated}.\${this.functionName}();
+    const actualOutput = await \${this.fileNameFormated}.\${this.functionName}(\${this.params});
     console.log(actualOutput);
   });
 })`;
@@ -30,7 +30,7 @@ const snapshot = {} as any;
 
 describe("\${this.className}.\${this.functionName}", () =>  {
   it("default", async () => {
-    const actualOutput = await \${this.target}.\${this.functionName}();
+    const actualOutput = await \${this.target}.\${this.functionName}(\${this.params});
     console.log(actualOutput);
   });
 })`;

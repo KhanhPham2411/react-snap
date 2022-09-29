@@ -1,4 +1,4 @@
-import * as resolveFunctionImportTemplate from "../../resolveFunctionImportTemplate";
+import * as resolveFunctionImportTemplate from "../../resolveImportTemplate";
 import { snapshotDirectory } from "../../../snapshot-generator";
 
 describe("resolveFunctionImportTemplate.resolveFunctionImportTemplate", () => {

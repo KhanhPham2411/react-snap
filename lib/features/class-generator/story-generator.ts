@@ -11,7 +11,7 @@ export class StoryGenerator extends TestingGenerator {
 
   static resolveTemplate(templateString, snapshot: ISnapshot, config) {
     const target = this.resolveTarget(snapshot);
-    const path = this.getPath(snapshot, config);
+    const path = this.getJestPath(snapshot, config);
 
     return this.fillTemplate(templateString, {
       ...snapshot,

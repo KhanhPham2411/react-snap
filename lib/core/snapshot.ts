@@ -14,6 +14,7 @@ export interface ISnapshot {
   id?: string;
   targetName?: string;
   functionName?: string;
+  className?: string;
   functionId?: string;
   caller?: ICaller;
   callerId?: string;

@@ -1,6 +1,7 @@
 import { ISnapshot } from "../../core/snapshot";
 import { getFuncList, getFunc } from "../../core/utils";
 import { functionTemplateString, methodTemplateString } from "./testing-generator-template";
+import { resolveMockTemplate } from './resolver/resolveMockTemplate';
 
 const fse = require("fs-extra");
 const fspath = require("path");
@@ -13,50 +14,55 @@ export interface TestingGeneratorConfig {
   fileName: string;
   fileNameFormated?: string;
   workspacePath?: string;
+  target?: string;
+  matchSnapshot?: string;
+  params?: string;
 }
 export class TestingGenerator {
-  static generate(snapshot: ISnapshot, config: TestingGeneratorConfig, update = false) {
+  static async generate(snapshot: ISnapshot, config: TestingGeneratorConfig) {
     config.fileNameFormated = config.fileName.replace(/-(\w)/g, (match, p1) => p1.toUpperCase());
+    config.target = this.resolveTarget(snapshot, config);
+    config.matchSnapshot = this.resolveMatchSnapshotTemplate(snapshot);
+    config.params = this.resolveParams(snapshot);
 
-    const testPath = this.getPath(snapshot, config);
-    if (fse.pathExistsSync(testPath) && update === false) {
-      return testPath;
+    await resolveMockTemplate(snapshot, config);
+    const jestPath = this.resolveJestTemplate(snapshot, config);
+
+    return jestPath;
+  }
+  static resolveJestTemplate(snapshot: ISnapshot, config) {
+    const jestPath = this.getJestPath(snapshot, config);
+    if (fse.pathExistsSync(jestPath)) {
+      return jestPath;
     }
 
-    const resolvedTemplate = this.resolveTemplate(snapshot, config);
-    fse.outputFileSync(testPath, resolvedTemplate);
-
-    return testPath;
-  }
-  static resolveTemplate(snapshot: ISnapshot, config) {
-    const matchSnapshot = this.resolveMatchSnapshotTemplate(snapshot);
-    const target = this.resolveTarget(snapshot);
-    const params = this.resolveParams(snapshot);
-    if (snapshot.targetName) {
-      return this.fillTemplate(methodTemplateString, {
+    let resolvedTemplate: string;
+    if (snapshot.className) {
+      resolvedTemplate =  this.fillTemplate(methodTemplateString, {
         ...snapshot,
         ...config,
-        // matchSnapshot,
-        target,
-        params,
+      });
+    }else {
+      resolvedTemplate =  this.fillTemplate(functionTemplateString, {
+        ...snapshot,
+        ...config,
       });
     }
 
-    return this.fillTemplate(functionTemplateString, {
-      ...snapshot,
-      ...config,
-      // matchSnapshot,
-      target,
-      params,
-    });
+    fse.outputFileSync(jestPath, resolvedTemplate);
+    return jestPath;
   }
 
-  static resolveTarget(snapshot: ISnapshot) {
-    if (snapshot.isPrototype) {
-      return `${snapshot.targetName}.prototype`;
+  static resolveTarget(snapshot: ISnapshot, config: TestingGeneratorConfig) {
+    if(snapshot.className) {
+      if (snapshot.isPrototype) {
+        return `${snapshot.targetName}.prototype`;
+      }
+  
+      return `${snapshot.targetName}`;
     }
-
-    return `${snapshot.targetName}`;
+    
+    return config.fileNameFormated;
   }
 
   static resolveImports(snapshot: ISnapshot) {
@@ -88,7 +94,7 @@ export class TestingGenerator {
     return new Function("return `" + templateString + "`;").call(templateVars);
   }
 
-  static getPath(snapshot: ISnapshot, config, folderName = "default"): string {
+  static getJestPath(snapshot: ISnapshot, config, folderName = "default"): string {
     if (config.snapshotDirectory == null) {
       config.snapshotDirectory = snapshotDirectory;
     }

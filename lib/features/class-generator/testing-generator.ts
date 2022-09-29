@@ -7,8 +7,15 @@ const fspath = require("path");
 
 export let snapshotDirectory = "__react-snap__";
 
+export interface TestingGeneratorConfig {
+  dirname: string;
+  snapshotDirectory: string;
+  fileName: string;
+  fileNameFormated?: string;
+  workspacePath?: string;
+}
 export class TestingGenerator {
-  static generate(snapshot: ISnapshot, config, update = false) {
+  static generate(snapshot: ISnapshot, config: TestingGeneratorConfig, update = false) {
     config.fileNameFormated = config.fileName.replace(/-(\w)/g, (match, p1) => p1.toUpperCase());
 
     const testPath = this.getPath(snapshot, config);
@@ -25,7 +32,7 @@ export class TestingGenerator {
     const matchSnapshot = this.resolveMatchSnapshotTemplate(snapshot);
     const target = this.resolveTarget(snapshot);
     const params = this.resolveParams(snapshot);
-    if (snapshot.className) {
+    if (snapshot.targetName) {
       return this.fillTemplate(methodTemplateString, {
         ...snapshot,
         ...config,
@@ -46,10 +53,14 @@ export class TestingGenerator {
 
   static resolveTarget(snapshot: ISnapshot) {
     if (snapshot.isPrototype) {
-      return `${snapshot.className}.prototype`;
+      return `${snapshot.targetName}.prototype`;
     }
 
-    return `${snapshot.className}`;
+    return `${snapshot.targetName}`;
+  }
+
+  static resolveImports(snapshot: ISnapshot) {
+    return `import * as devide from '../src/devide';`;
   }
 
   static resolveParams(snapshot: ISnapshot) {

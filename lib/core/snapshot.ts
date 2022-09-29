@@ -12,7 +12,7 @@ export interface ICaller {
 export interface ISnapshot {
   eval?: any;
   id?: string;
-  className?: string;
+  targetName?: string;
   functionName?: string;
   functionId?: string;
   caller?: ICaller;
@@ -25,6 +25,7 @@ export interface ISnapshot {
   creationTime?: number;
   creationTimeString?: string;
   elapsedTime?: number;
+  priority?: number;
   isPrototype?: boolean;
   mocks?: ISnapshot[];
   mockFunction?: any;

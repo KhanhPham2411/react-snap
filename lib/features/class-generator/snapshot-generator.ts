@@ -36,20 +36,20 @@ export class SnapshotGenerator {
 
   static async resolveMockMethods(snapshot: ISnapshot | null, namespaces) {
     snapshot?.mocks.forEach((mock) => {
-      if (mock.className) {
+      if (mock.targetName) {
         if (mock.isPrototype) {
-          jest.spyOn(namespaces[mock.className].prototype, mock.functionName).mockReturnValueOnce(mock.output);
+          jest.spyOn(namespaces[mock.targetName].prototype, mock.functionName).mockReturnValueOnce(mock.output);
         } else {
-          jest.spyOn(namespaces[mock.className], mock.functionName).mockReturnValueOnce(mock.output);
+          jest.spyOn(namespaces[mock.targetName], mock.functionName).mockReturnValueOnce(mock.output);
         }
       }
     });
 
-    if (snapshot?.className) {
+    if (snapshot?.targetName) {
       if (snapshot.isPrototype) {
-        mergeMethods(namespaces[snapshot.className].prototype, snapshot?.classObject);
+        mergeMethods(namespaces[snapshot.targetName].prototype, snapshot?.classObject);
       } else {
-        mergeMethods(namespaces[snapshot.className], snapshot?.classObject);
+        mergeMethods(namespaces[snapshot.targetName], snapshot?.classObject);
       }
     }
   }

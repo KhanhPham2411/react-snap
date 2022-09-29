@@ -26,7 +26,7 @@ export async function resolveMockItemIdentityTemplate(snapshot: ISnapshot, confi
 }
 
 export async function insertMockItemTemplate(snapshot: ISnapshot, config: TestingGeneratorConfig) {
-  const mockFileName = `__lozicode___/mock.ts`;
+  const mockFileName = `__lozicode__/mock.ts`;
   const mockFilePath = `${config.workspacePath}/${mockFileName}`;
   if(!pathExists(mockFilePath)) return;
 

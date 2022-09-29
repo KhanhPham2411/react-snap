@@ -1,6 +1,6 @@
 import { ISnapshot } from "../../../core/snapshot";
 import { TestingGenerator, TestingGeneratorConfig } from "../testing-generator";
-import { pathExists, readAllText, writeAllText } from '../../../../../util-common/file';
+import { pathExists, readAllText, writeAllText, getRelativePath } from '../../../../../util-common/file';
 const path = require('path');
 
 export const functionImportTemplate = `
@@ -10,7 +10,7 @@ export const methodImportTemplate = `
 import { \${this.className} } from "../\${this.relative}/\${this.fileName}"`;
 
 export async function resolveFunctionImportTemplate(snapshot: ISnapshot, config: TestingGeneratorConfig) {
-  const relative =  path.relative(config.workspacePath, config.dirname);
+  const relative = getRelativePath({sourcePath: config.workspacePath, targetPath: config.dirname});
 
   if(snapshot.className) {
     return TestingGenerator.fillTemplate(methodImportTemplate, {
@@ -28,7 +28,7 @@ export async function resolveFunctionImportTemplate(snapshot: ISnapshot, config:
 }
 
 export async function insertImportTemplate(snapshot: ISnapshot, config: TestingGeneratorConfig) {
-  const mockFileName = `__lozicode___/mock.ts`;
+  const mockFileName = `__lozicode__/mock.ts`;
   const mockFilePath = `${config.workspacePath}/${mockFileName}`;
   if(!pathExists(mockFilePath)) return;
 

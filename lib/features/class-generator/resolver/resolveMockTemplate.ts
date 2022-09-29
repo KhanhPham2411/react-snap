@@ -8,7 +8,7 @@ const path = require("path");
 export const mockTemplate = `export const fse = require("fs-extra");
 
 export function saveSnapshot(snapshot: ISnapshot) {
-	const filePath = \`__lozicode__/\${snapshot.targetName}/\${snapshot.functionName}.json\`;
+	const filePath = \`__lozicode__/data/\${snapshot.targetName}/\${snapshot.functionName}.json\`;
 	fse.outputFileSync(filePath, JSON.stringify(snapshot));
 }
 export function mock(object, snapshot: ISnapshot) {
@@ -57,7 +57,7 @@ export const methodImportTemplate = `
 import { \${this.className} } from "../../\${this.fileName}"`;
 
 export async function resolveMockTemplate(snapshot: ISnapshot, config: TestingGeneratorConfig) {
-  const mockFileName = `__lozicode___/mock.ts`;
+  const mockFileName = `__lozicode__/mock.ts`;
   const mockFilePath = `${config.workspacePath}/${mockFileName}`;
   if(!pathExists(mockFilePath)) {
     writeAllText(mockFilePath, mockTemplate)

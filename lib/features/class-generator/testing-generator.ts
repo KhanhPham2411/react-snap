@@ -2,6 +2,7 @@ import { ISnapshot } from "../../core/snapshot";
 import { getFuncList, getFunc } from "../../core/utils";
 import { functionTemplateString, methodTemplateString } from "./testing-generator-template";
 import { resolveMockTemplate } from './resolver/resolveMockTemplate';
+import { resolveImportMockTemplate } from './resolver/resolveImportMockTemplate';
 
 const fse = require("fs-extra");
 const fspath = require("path");
@@ -17,6 +18,7 @@ export interface TestingGeneratorConfig {
   target?: string;
   matchSnapshot?: string;
   params?: string;
+  jestPath?: string;
 }
 export class TestingGenerator {
   static async generate(snapshot: ISnapshot, config: TestingGeneratorConfig) {
@@ -26,14 +28,16 @@ export class TestingGenerator {
     config.params = this.resolveParams(snapshot);
 
     await resolveMockTemplate(snapshot, config);
-    const jestPath = this.resolveJestTemplate(snapshot, config);
+    await this.resolveJestTemplate(snapshot, config);
 
-    return jestPath;
+    return config.jestPath;
   }
-  static resolveJestTemplate(snapshot: ISnapshot, config) {
-    const jestPath = this.getJestPath(snapshot, config);
-    if (fse.pathExistsSync(jestPath)) {
-      return jestPath;
+  static async resolveJestTemplate(snapshot: ISnapshot, config) {
+    config.jestPath = this.getJestPath(snapshot, config);
+    config.importMock = await resolveImportMockTemplate(snapshot, config);
+    
+    if (fse.pathExistsSync(config.jestPath)) {
+      return;
     }
 
     let resolvedTemplate: string;
@@ -49,8 +53,8 @@ export class TestingGenerator {
       });
     }
 
-    fse.outputFileSync(jestPath, resolvedTemplate);
-    return jestPath;
+    fse.outputFileSync(config.jestPath, resolvedTemplate);
+    return;
   }
 
   static resolveTarget(snapshot: ISnapshot, config: TestingGeneratorConfig) {
@@ -90,7 +94,7 @@ export class TestingGenerator {
     return new Function("return `" + templateString + "`;").call(templateVars);
   }
 
-  static getJestPath(snapshot: ISnapshot, config, folderName = "default"): string {
+  static getJestPath(snapshot: ISnapshot, config): string {
     if (config.snapshotDirectory == null) {
       config.snapshotDirectory = snapshotDirectory;
     }

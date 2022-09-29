@@ -9,7 +9,7 @@ export const mockTemplate = `export const fse = require("fs-extra");
 
 export function saveSnapshot(snapshot: ISnapshot) {
 	const filePath = \`__lozicode__/data/\${snapshot.targetName}/\${snapshot.functionName}.json\`;
-	fse.outputFileSync(filePath, JSON.stringify(snapshot));
+	fse.outputFileSync(filePath, JSON.stringify(snapshot, null, 2));
 }
 export function mock(object, snapshot: ISnapshot) {
 	const originalMethod = object[snapshot.functionName];

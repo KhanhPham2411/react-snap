@@ -29,7 +29,29 @@ export function mock(object, snapshot: ISnapshot) {
 }
 
 export function mockAll() {
-}`;
+}
+export interface ISnapshot {
+  eval?: any;
+  id?: string;
+  targetName?: string;
+  functionName?: string;
+  functionId?: string;
+  callerId?: string;
+  classObject?: any;
+  classObjectAfter?: any;
+  input?: any[];
+  inputAfter?: any[];
+  output?: any;
+  creationTime?: number;
+  creationTimeString?: string;
+  elapsedTime?: number;
+  isPrototype?: boolean;
+  isCompleted?: boolean;
+  mocks?: ISnapshot[];
+  mockFunction?: any;
+  priority: number;
+}
+`;
 
 export const methodImportTemplate = `
 import { \${this.className} } from "../../\${this.fileName}"`;

@@ -6,9 +6,8 @@ const path = require("path");
 
 export const mockItemTemplate = `
   mock(\${this.target}, {
-      functionName: '\${this.functionName}', targetName: '\${this.target}', priority: 2
-    });
-  }
+    functionName: '\${this.functionName}', targetName: '\${this.target}', priority: 2
+  });
 `;
 export const mockItemIdentityTemplate = `functionName: '\${this.functionName}', targetName: '\${this.target}'`;
 

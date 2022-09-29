@@ -4,13 +4,21 @@ import { pathExists, readAllText, writeAllText } from '../../../../../util-commo
 const path = require('path');
 
 export const functionImportTemplate = `
-import * as \${this.targetName} from "../\${this.relative}/\${this.fileName}"`;
+import * as \${this.target} from "../\${this.relative}/\${this.fileName}"`;
 
 export const methodImportTemplate = `
-import { \${this.className} } from "../../\${this.fileName}"`;
+import { \${this.className} } from "../\${this.relative}/\${this.fileName}"`;
 
 export async function resolveFunctionImportTemplate(snapshot: ISnapshot, config: TestingGeneratorConfig) {
   const relative =  path.relative(config.workspacePath, config.dirname);
+
+  if(snapshot.className) {
+    return TestingGenerator.fillTemplate(methodImportTemplate, {
+      ...snapshot,
+      ...config,
+      relative
+    });
+  }
 
   return TestingGenerator.fillTemplate(functionImportTemplate, {
     ...snapshot,

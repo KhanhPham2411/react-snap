@@ -65,10 +65,6 @@ export class TestingGenerator {
     return config.fileNameFormated;
   }
 
-  static resolveImports(snapshot: ISnapshot) {
-    return `import * as devide from '../src/devide';`;
-  }
-
   static resolveParams(snapshot: ISnapshot) {
     if (snapshot.params == null) {
       return "";

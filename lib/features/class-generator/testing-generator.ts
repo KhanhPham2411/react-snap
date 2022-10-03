@@ -3,6 +3,7 @@ import { getFuncList, getFunc } from "../../core/utils";
 import { functionTemplateString, methodTemplateString } from "./testing-generator-template";
 import { resolveMockTemplate } from './resolver/resolveMockTemplate';
 import { resolveImportMockTemplate } from './resolver/resolveImportMockTemplate';
+import { resolveIgnoreTemplate } from './resolver/resolveIgnoreTemplate';
 
 const fse = require("fs-extra");
 const fspath = require("path");
@@ -28,6 +29,7 @@ export class TestingGenerator {
     config.params = this.resolveParams(snapshot);
 
     await resolveMockTemplate(snapshot, config);
+    await resolveIgnoreTemplate(snapshot, config);
     await this.resolveJestTemplate(snapshot, config);
 
     return config.jestPath;

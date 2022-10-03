@@ -5,16 +5,36 @@ import { insertImportTemplate } from './resolveImportTemplate';
 import { insertMockItemTemplate } from './resolveMockItemTemplate';
 const path = require("path");
 
-export const mockTemplate = `export const fse = require("fs-extra");
+export const mockTemplate = `import * as fse from "fs-extra";
 
 export function saveSnapshot(snapshot: ISnapshot) {
 	const filePath = \`__lozicode__/data/\${snapshot.targetName}/\${snapshot.functionName}.json\`;
-	fse.outputFileSync(filePath, JSON.stringify(snapshot, null, 2));
+  let arraySnap = [];
+  if(fse.pathExistsSync(filePath)) {
+    arraySnap = JSON.parse(fse.readFileSync(filePath, 'utf8'));
+  }
+
+  let foundSnap;
+  for(let i=0; i<arraySnap.length; i++) {
+    if(arraySnap[i].id == snapshot.id) {
+      arraySnap[i] = {...snapshot};
+      foundSnap = arraySnap[i];
+    }
+  }
+  if(foundSnap == null) {
+    arraySnap.unshift(snapshot);
+  }
+
+  if(arraySnap.length > 10) {
+    arraySnap.pop();
+  }
+	fse.outputFileSync(filePath, JSON.stringify(arraySnap, null, 2));
 }
 export function mock(object, snapshot: ISnapshot) {
 	const originalMethod = object[snapshot.functionName];
 	const wrapperMethod = async (...args) => {
 		snapshot.input = args;
+    snapshot.id = Math.random().toString(16).slice(2);
 		saveSnapshot(snapshot);
 
 		const output = await originalMethod.apply(this, args);

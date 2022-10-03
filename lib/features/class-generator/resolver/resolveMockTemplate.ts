@@ -7,7 +7,14 @@ const path = require("path");
 
 export const mockTemplate = `import * as fse from "fs-extra";
 
+function updateTime(snapshot: ISnapshot) {
+  snapshot.creationTime = new Date().getTime();
+  snapshot.creationTimeString = new Date(snapshot.creationTime).toLocaleString();
+}
+
 export function saveSnapshot(snapshot: ISnapshot) {
+  updateTime(snapshot);
+  
 	const filePath = \`__lozicode__/data/\${snapshot.targetName}/\${snapshot.functionName}.json\`;
   let arraySnap = [];
   if(fse.pathExistsSync(filePath)) {

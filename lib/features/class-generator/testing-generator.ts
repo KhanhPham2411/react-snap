@@ -14,6 +14,7 @@ export interface TestingGeneratorConfig {
   dirname: string;
   snapshotDirectory: string;
   fileName: string;
+  filePath?: string;
   fileNameFormated?: string;
   workspacePath?: string;
   target?: string;
@@ -23,11 +24,8 @@ export interface TestingGeneratorConfig {
 }
 export class TestingGenerator {
   static async generate(snapshot: ISnapshot, config: TestingGeneratorConfig) {
-    config.fileNameFormated = config.fileName.replace(/-(\w)/g, (match, p1) => p1.toUpperCase());
-    config.target = this.resolveTarget(snapshot, config);
-    config.matchSnapshot = this.resolveMatchSnapshotTemplate(snapshot);
-    config.params = this.resolveParams(snapshot);
-
+    this.resolveConfigInit(snapshot, config);
+   
     await resolveMockTemplate(snapshot, config);
     await resolveIgnoreTemplate(snapshot, config);
     await this.resolveJestTemplate(snapshot, config);
@@ -57,6 +55,13 @@ export class TestingGenerator {
 
     fse.outputFileSync(config.jestPath, resolvedTemplate);
     return;
+  }
+
+  static resolveConfigInit(snapshot: ISnapshot, config: TestingGeneratorConfig) {
+    config.fileNameFormated = config.fileName.replace(/-(\w)/g, (match, p1) => p1.toUpperCase());
+    config.target = this.resolveTarget(snapshot, config);
+    config.matchSnapshot = this.resolveMatchSnapshotTemplate(snapshot);
+    config.params = this.resolveParams(snapshot);
   }
 
   static resolveTarget(snapshot: ISnapshot, config: TestingGeneratorConfig) {

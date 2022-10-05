@@ -1,4 +1,5 @@
 import { AspectInjection } from "../core/aspect-injection";
+import { LoggingDecorator } from "../core/logging-decorator";
 import { ISnapshot } from "../core/snapshot";
 
 describe("aspect injection should work :))", () => {
@@ -28,7 +29,8 @@ describe("aspect injection should work :))", () => {
       console.log(`Arguments received: ${snapshot.input}`);
     }
 
-    AspectInjection.inject(MyBussinessLogic, loggingAspect);
+    // AspectInjection.inject(MyBussinessLogic, loggingAspect);
+    AspectInjection.injectMethodDecorator(MyBussinessLogic.prototype, "add", new LoggingDecorator());
 
     const logic = new MyBussinessLogic();
     const resultAsync = await logic.addAsync(1, 1);

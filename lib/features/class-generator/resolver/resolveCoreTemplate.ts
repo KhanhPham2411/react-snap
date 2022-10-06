@@ -13,7 +13,7 @@ function updateTime(snapshot: ISnapshot) {
 }
 
 export function init() {
-  fse.rmSync('__lozicode__/data/main.json');
+  fse.rmSync('__lozicode__/data/main.json', { force: true });
 }
 
 export function mergeMainSnapshot(snapshot: ISnapshot, filePath) {

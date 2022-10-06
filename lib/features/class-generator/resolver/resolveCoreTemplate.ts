@@ -11,6 +11,31 @@ function updateTime(snapshot: ISnapshot) {
   snapshot.creationTime = new Date().getTime();
   snapshot.creationTimeString = new Date(snapshot.creationTime).toLocaleString();
 }
+let mainStarted = false;
+
+export function mergeMainSnapshot(snapshot: ISnapshot, filePath) {
+  let arraySnap = [];
+  if(fse.pathExistsSync(filePath)) {
+    arraySnap = JSON.parse(fse.readFileSync(filePath, 'utf8'));
+  }
+
+  let foundSnap;
+  for(let i=0; i<arraySnap.length; i++) {
+    if(arraySnap[i].targetName == snapshot.targetName 
+      && arraySnap[i].functionName == snapshot.functionName ) {
+      arraySnap[i] = {...snapshot};
+      foundSnap = arraySnap[i];
+    }
+  }
+  if(foundSnap == null) {
+    arraySnap.unshift(snapshot);
+  }
+
+  if(arraySnap.length > 10) {
+    arraySnap.pop();
+  }
+	fse.outputFileSync(filePath, JSON.stringify(arraySnap, null, 2));
+}
 
 export function mergeSnapshot(snapshot: ISnapshot, filePath) {
   let arraySnap = [];
@@ -35,13 +60,19 @@ export function mergeSnapshot(snapshot: ISnapshot, filePath) {
 	fse.outputFileSync(filePath, JSON.stringify(arraySnap, null, 2));
 }
 export function saveSnapshot(snapshot: ISnapshot) {
+  const mainPath = \`__lozicode__/data/main.json\`;
+
+  if(mainStarted == false) {
+    mainStarted = true;
+    fse.rmSync(mainPath);
+  }
+
   updateTime(snapshot);
   
 	const functionPath = \`__lozicode__/data/\${snapshot.targetName}/\${snapshot.functionName}.json\`;
-  mergeSnapshot(snapshot, functionPath);
 
-	const mainPath = \`__lozicode__/data/main.json\`;
-  mergeSnapshot(snapshot, mainPath);
+  mergeSnapshot(snapshot, functionPath);
+  mergeMainSnapshot(snapshot, mainPath);
 }
 export function mock(object, snapshot: ISnapshot) {
 	const originalMethod = object[snapshot.functionName];

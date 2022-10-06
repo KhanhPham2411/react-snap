@@ -11,7 +11,10 @@ function updateTime(snapshot: ISnapshot) {
   snapshot.creationTime = new Date().getTime();
   snapshot.creationTimeString = new Date(snapshot.creationTime).toLocaleString();
 }
-let mainStarted = false;
+
+export function init() {
+  fse.rmSync('__lozicode__/data/main.json');
+}
 
 export function mergeMainSnapshot(snapshot: ISnapshot, filePath) {
   let arraySnap = [];
@@ -61,11 +64,6 @@ export function mergeSnapshot(snapshot: ISnapshot, filePath) {
 }
 export function saveSnapshot(snapshot: ISnapshot) {
   const mainPath = \`__lozicode__/data/main.json\`;
-
-  if(mainStarted == false) {
-    mainStarted = true;
-    fse.rmSync(mainPath);
-  }
 
   updateTime(snapshot);
   

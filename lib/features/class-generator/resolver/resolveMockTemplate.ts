@@ -5,9 +5,10 @@ import { insertImportTemplate } from './resolveImportTemplate';
 import { insertMockItemTemplate } from './resolveMockItemTemplate';
 const path = require("path");
 
-export const mockTemplate = `import { mock } from './core';
+export const mockTemplate = `import { mock, init } from './core';
 
 export function mockAll() {
+  init();
 }
 `;
 

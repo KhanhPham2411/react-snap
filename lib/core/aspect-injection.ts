@@ -27,6 +27,17 @@ export class AspectInjection {
       sourceDescriptor? Object.defineProperty(target, key, decorator.descriptor(target, key, sourceDescriptor)): null;
     });
   }
+  static injectMethodDecorator(target, key, decorator) {
+    const sourceDescriptor = Object.getOwnPropertyDescriptor(target, key);
+    if(!target[`${original_descriptor_predefined}${key}`]){
+      target[`${original_descriptor_predefined}${key}`] = sourceDescriptor?.value;
+    }else{
+      return;
+    }
+
+    sourceDescriptor? Object.defineProperty(target, key, decorator.descriptor(target, key, sourceDescriptor)): null;
+  }
+
   static clear(target) {
     const prototype = target.prototype;
     prototype.name = target.name;

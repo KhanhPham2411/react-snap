@@ -3,11 +3,9 @@ import { TestingGenerator, TestingGeneratorConfig } from "../testing-generator";
 import { pathExists, readAllText, writeAllText, getRelativePath } from '../../../../../util-common/file';
 const path = require('path');
 
-export const functionImportTemplate = `
-import * as \${this.target} from "../\${this.relative}/\${this.fileName}"`;
+export const functionImportTemplate = `import * as \${this.target} from "../\${this.relative}/\${this.fileName}";`;
 
-export const methodImportTemplate = `
-import { \${this.className} } from "../\${this.relative}/\${this.fileName}"`;
+export const methodImportTemplate = `import { \${this.className} } from "../\${this.relative}/\${this.fileName}";`;
 
 export async function resolveFunctionImportTemplate(snapshot: ISnapshot, config: TestingGeneratorConfig) {
   const relative = getRelativePath({sourcePath: config.workspacePath, targetPath: config.dirname});

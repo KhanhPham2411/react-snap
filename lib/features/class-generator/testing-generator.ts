@@ -4,6 +4,7 @@ import { functionTemplateString, methodTemplateString } from "./testing-generato
 import { resolveMockTemplate } from './resolver/resolveMockTemplate';
 import { resolveImportMockTemplate } from './resolver/resolveImportMockTemplate';
 import { resolveIgnoreTemplate } from './resolver/resolveIgnoreTemplate';
+import { resolveCoreTemplate } from './resolver/resolveCoreTemplate';
 
 const fse = require("fs-extra");
 const fspath = require("path");
@@ -27,6 +28,7 @@ export class TestingGenerator {
     this.resolveConfigInit(snapshot, config);
    
     await resolveMockTemplate(snapshot, config);
+    await resolveCoreTemplate(snapshot, config);
     await resolveIgnoreTemplate(snapshot, config);
     await this.resolveJestTemplate(snapshot, config);
 

@@ -5,16 +5,17 @@ import { resolveMockTemplate } from './resolver/resolveMockTemplate';
 import { resolveImportMockTemplate } from './resolver/resolveImportMockTemplate';
 import { resolveIgnoreTemplate } from './resolver/resolveIgnoreTemplate';
 import { resolveCoreTemplate } from './resolver/resolveCoreTemplate';
+import { parseFilepath } from '../../../../util-common/file';
 
 const fse = require("fs-extra");
 const fspath = require("path");
 
-export let snapshotDirectory = "__react-snap__";
+export let snapshotDirectory = "__lozicode__";
 
 export interface TestingGeneratorConfig {
-  dirname: string;
-  snapshotDirectory: string;
-  fileName: string;
+  dirname?: string;
+  snapshotDirectory?: string;
+  fileName?: string;
   filePath?: string;
   fileNameFormated?: string;
   workspacePath?: string;
@@ -60,6 +61,12 @@ export class TestingGenerator {
   }
 
   static resolveConfigInit(snapshot: ISnapshot, config: TestingGeneratorConfig) {
+    if(config.fileName == null) {
+      const { dir, name } = parseFilepath({ filePath: config.filePath });
+      config.fileName = name.replace(".test", "");
+      config.dirname = dir;
+    }
+    
     config.fileNameFormated = config.fileName.replace(/-(\w)/g, (match, p1) => p1.toUpperCase());
     config.target = this.resolveTarget(snapshot, config);
     config.matchSnapshot = this.resolveMatchSnapshotTemplate(snapshot);
@@ -67,6 +74,10 @@ export class TestingGenerator {
   }
 
   static resolveTarget(snapshot: ISnapshot, config: TestingGeneratorConfig) {
+    if(snapshot.targetName) {
+      return snapshot.targetName;
+    }
+
     if(snapshot.className) {
       if (snapshot.isPrototype) {
         return `${snapshot.targetName}.prototype`;
@@ -108,7 +119,7 @@ export class TestingGenerator {
       config.snapshotDirectory = snapshotDirectory;
     }
     return (
-      config.dirname + `/${config.snapshotDirectory}/${config.fileNameFormated}/${this.getFileName(snapshot, config)}`
+      config.dirname + `/${config.snapshotDirectory}/${config.target}/${this.getFileName(snapshot, config)}`
     );
   }
   static getFileName(snapshot: ISnapshot, config) {

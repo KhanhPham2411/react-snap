@@ -25,12 +25,19 @@ export async function resolveJestItTemplate(snapshot: ISnapshot, config: Testing
   });
 }
 
-export async function insertJestItTemplate(snapshot: ISnapshot, config: TestingGeneratorConfig, insertIndex: number) {
+export async function insertJestItTemplate(snapshot: ISnapshot, config: TestingGeneratorConfig, insertIndex: number = null) {
   const jestFilePath = config.filePath;
   if(!pathExists(jestFilePath)) return;
+  
 
   let jestFileContent = readAllText(jestFilePath);
   const itemTemplate = await resolveJestItTemplate(snapshot, config);
+
+  if(insertIndex == null) {
+    insertIndex = jestFileContent.indexOf('it(');
+  }
+  if(insertIndex == null) return;
+  
   const newContent = insert(jestFileContent, insertIndex, itemTemplate);
   
   writeAllText(jestFilePath, newContent);

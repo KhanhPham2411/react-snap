@@ -82,7 +82,6 @@ export function mock(object, snapshot: ISnapshot) {
 		const output = await originalMethod.apply(this, args);
 
 		snapshot.output = output;
-		snapshot.priority = 1;
 		saveSnapshot(snapshot);
 		return output;
 	}

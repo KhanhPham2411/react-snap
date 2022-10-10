@@ -22,21 +22,27 @@ export function mergeMainSnapshot(snapshot: ISnapshot, filePath) {
     arraySnap = JSON.parse(fse.readFileSync(filePath, 'utf8'));
   }
 
+  for(let i=0; i<arraySnap.length; i++) {
+    if(arraySnap[i].id == snapshot.id) {
+      arraySnap[i] = {...snapshot};
+      fse.outputFileSync(filePath, JSON.stringify(arraySnap, null, 2));
+      return;
+    }
+  }
+
   let foundSnap;
   for(let i=0; i<arraySnap.length; i++) {
     if(arraySnap[i].targetName == snapshot.targetName 
       && arraySnap[i].functionName == snapshot.functionName ) {
-      arraySnap[i] = {...snapshot};
-      foundSnap = arraySnap[i];
+      foundSnap = i;
     }
   }
-  if(foundSnap == null) {
-    arraySnap.unshift(snapshot);
-  }
 
-  if(arraySnap.length > 10) {
-    arraySnap.pop();
-  }
+  if(foundSnap != null) {
+    arraySnap.splice(foundSnap, 1);
+  } 
+
+  arraySnap.unshift(snapshot);
 	fse.outputFileSync(filePath, JSON.stringify(arraySnap, null, 2));
 }
 
@@ -108,7 +114,6 @@ export interface ISnapshot {
   isCompleted?: boolean;
   mocks?: ISnapshot[];
   mockFunction?: any;
-  priority: number;
 }
 `;
 

@@ -80,10 +80,10 @@ export class TestingGenerator {
 
     if(snapshot.className) {
       if (snapshot.isPrototype) {
-        return `${snapshot.targetName}.prototype`;
+        return `${snapshot.className}.prototype`;
       }
   
-      return `${snapshot.targetName}`;
+      return `${snapshot.className}`;
     }
     
     return config.fileNameFormated;

@@ -8,7 +8,7 @@ export const jestItTemplate = `it("\${this.creationTimeString} - \${this.id}", a
     const actualOutput = await \${this.target}.\${this.functionName}(\${this.inputParams});
     console.log(actualOutput);
 
-    expect(actualOutput).toBe(\${this.output});
+    expect(actualOutput).toBe(\${this.outputJson});
   });
   
   `;
@@ -17,11 +17,13 @@ export async function resolveJestItTemplate(snapshot: ISnapshot, config: Testing
   snapshot.creationTimeString = new Date(snapshot.creationTime).toLocaleString();
   TestingGenerator.resolveConfigInit(snapshot, config);
   const inputParams = snapshot.input.map(item => JSON.stringify(item)).join(", ");
+  const outputJson = JSON.stringify(snapshot.output, null, 2);
 
   return TestingGenerator.fillTemplate(jestItTemplate, {
     ...snapshot,
     ...config,
-    inputParams
+    inputParams,
+    outputJson
   });
 }
 

@@ -79,20 +79,22 @@ export function saveSnapshot(snapshot: ISnapshot) {
   mergeMainSnapshot(snapshot, mainPath);
 }
 export function mock(object, snapshot: ISnapshot) {
-	const originalMethod = object[snapshot.functionName];
-	const wrapperMethod = async (...args) => {
-		snapshot.input = args;
-    snapshot.id = Math.random().toString(16).slice(2);
-		saveSnapshot(snapshot);
-
-		const output = await originalMethod.apply(this, args);
-
-		snapshot.output = output;
-		saveSnapshot(snapshot);
-		return output;
-	}
-
-	jest.spyOn(object, snapshot.functionName).mockImplementation(wrapperMethod);
+  try {
+    const originalMethod = object[snapshot.functionName];
+    const wrapperMethod = async (...args) => {
+      snapshot.input = args;
+      snapshot.id = Math.random().toString(16).slice(2);
+      saveSnapshot(snapshot);
+  
+      const output = await originalMethod.apply(this, args);
+  
+      snapshot.output = output;
+      saveSnapshot(snapshot);
+      return output;
+    }
+  
+    jest.spyOn(object, snapshot.functionName).mockImplementation(wrapperMethod);
+  } catch {}
 }
 
 export interface ISnapshot {

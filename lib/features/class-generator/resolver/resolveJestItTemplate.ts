@@ -16,7 +16,7 @@ export const jestItTemplate = `it("\${this.creationTimeString} - \${this.id}", a
 export async function resolveJestItTemplate(snapshot: ISnapshot, config: TestingGeneratorConfig) {
   snapshot.creationTimeString = new Date(snapshot.creationTime).toLocaleString();
   TestingGenerator.resolveConfigInit(snapshot, config);
-  const inputParams = snapshot.input.map(item => JSON.stringify(item)).join(", ");
+  const inputParams = snapshot.input.map(item => JSON.stringify(item, null, 2)).join(", ");
   const outputJson = JSON.stringify(snapshot.output, null, 2);
 
   return TestingGenerator.fillTemplate(jestItTemplate, {

@@ -80,7 +80,13 @@ export function saveSnapshot(snapshot: ISnapshot) {
 }
 export function mock(object, snapshot: ISnapshot) {
   try {
+    if(object[snapshot.functionName + "__mocked"]) {
+      return;
+    }
+
     const originalMethod = object[snapshot.functionName];
+    object[snapshot.functionName + "__mocked"] = originalMethod;
+    
     const wrapperMethod = async (...args) => {
       snapshot.input = args;
       snapshot.id = Math.random().toString(16).slice(2);

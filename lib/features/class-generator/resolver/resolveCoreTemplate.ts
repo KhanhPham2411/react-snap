@@ -25,7 +25,7 @@ export function mergeMainSnapshot(snapshot: ISnapshot, filePath) {
   for(let i=0; i<arraySnap.length; i++) {
     if(arraySnap[i].id == snapshot.id) {
       arraySnap[i] = {...snapshot};
-      fse.outputFileSync(filePath, JSON.stringify(arraySnap, null, 2));
+      tryOutputFileSync({ filePath, arraySnap });
       return;
     }
   }
@@ -43,7 +43,19 @@ export function mergeMainSnapshot(snapshot: ISnapshot, filePath) {
   } 
 
   arraySnap.unshift(snapshot);
-	fse.outputFileSync(filePath, JSON.stringify(arraySnap, null, 2));
+	tryOutputFileSync({ filePath, arraySnap });
+}
+
+export function tryOutputFileSync({
+  filePath, 
+  arraySnap
+}) {
+  try {
+    fse.outputFileSync(filePath, JSON.stringify(arraySnap, null, 2));
+  }
+  catch {
+
+  }
 }
 
 export function mergeSnapshot(snapshot: ISnapshot, filePath) {
@@ -66,7 +78,7 @@ export function mergeSnapshot(snapshot: ISnapshot, filePath) {
   if(arraySnap.length > 10) {
     arraySnap.pop();
   }
-	fse.outputFileSync(filePath, JSON.stringify(arraySnap, null, 2));
+	tryOutputFileSync({ filePath, arraySnap });
 }
 export function saveSnapshot(snapshot: ISnapshot) {
   const mainPath = \`__lozicode__/data/main.json\`;

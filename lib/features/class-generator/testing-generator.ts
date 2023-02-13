@@ -93,7 +93,8 @@ export class TestingGenerator {
     if (snapshot.params == null) {
       return "";
     }
-    return snapshot.params.map((i) => "{}").join(", ");
+
+    return snapshot.params.map((i) => i.startsWith("{") ? "{}" : "null").join(", ");
   }
 
   static resolveMatchSnapshotTemplate(snapshot: ISnapshot) {

@@ -136,6 +136,7 @@ export function checkIsAsync(func) {
   const string = func.toString().toLowerCase().trim();
 
   return !!(
+    string.match(/await/) ||
     string.match(/async/) ||
       // generator
       string.match(/__generator/) ||

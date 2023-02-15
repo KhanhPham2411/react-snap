@@ -33,7 +33,10 @@ export class TestingGenerator {
     await resolveIgnoreTemplate(snapshot, config);
     await this.resolveJestTemplate(snapshot, config);
 
-    return config.jestPath;
+    return  {
+      ...config, 
+      ...snapshot
+    };
   }
   static async resolveJestTemplate(snapshot: ISnapshot, config) {
     config.jestPath = this.getJestPath(snapshot, config);

@@ -4,7 +4,7 @@ import { pathExists, readAllText, writeAllText, getRelativePath } from '../../..
 import { insert } from '../../../../../util-common/string';
 const path = require('path');
 
-export const jestItTemplate = `it("\${this.creationTimeString} - \${this.id}", async () => {
+export const jestItTemplate = `it("\${this.creationTimeString} - \${this.id} - \${this.elapsedTimeString} ms", async () => {
     const actualOutput = await \${this.target}.\${this.functionName}(\${this.inputParams});
     console.log(actualOutput);
 
@@ -15,6 +15,8 @@ export const jestItTemplate = `it("\${this.creationTimeString} - \${this.id}", a
 
 export async function resolveJestItTemplate(snapshot: ISnapshot, config: TestingGeneratorConfig) {
   snapshot.creationTimeString = new Date(snapshot.creationTime).toLocaleString();
+  snapshot.elapsedTimeString = snapshot.elapsedTime.toLocaleString();
+  
   TestingGenerator.resolveConfigInit(snapshot, config);
   const inputParams = snapshot.input.map(item => JSON.stringify(item, null, 2)).join(", ");
   const outputJson = JSON.stringify(snapshot.output, null, 2);

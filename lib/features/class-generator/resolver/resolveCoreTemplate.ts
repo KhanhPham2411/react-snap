@@ -8,8 +8,18 @@ const path = require("path");
 export const coreTemplate = `import * as fse from 'fs-extra';
 
 function updateTime(snapshot: ISnapshot) {
-  snapshot.creationTime = new Date().getTime();
-  snapshot.creationTimeString = new Date(snapshot.creationTime).toLocaleString();
+  if(snapshot.creationTime == null) {
+    snapshot.creationTime = new Date().getTime();
+    snapshot.creationTimeString = new Date(snapshot.creationTime).toLocaleString();
+    snapshot.updateTime = snapshot.creationTime;
+    snapshot.updateTimeString = snapshot.creationTimeString;
+    snapshot.elapsedTime = 0;
+  }
+  else {
+    snapshot.updateTime = new Date().getTime();
+    snapshot.updateTimeString = new Date(snapshot.updateTime).toLocaleString();
+    snapshot.elapsedTime += snapshot.updateTime - snapshot.creationTime;
+  }
 }
 
 export function init() {
@@ -17,7 +27,7 @@ export function init() {
 }
 
 export function mergeMainSnapshot(snapshot: ISnapshot, filePath) {
-  let arraySnap = [];
+  let arraySnap: ISnapshot[] = [];
   if(fse.pathExistsSync(filePath)) {
     arraySnap = JSON.parse(fse.readFileSync(filePath, 'utf8'));
   }
@@ -35,6 +45,7 @@ export function mergeMainSnapshot(snapshot: ISnapshot, filePath) {
     if(arraySnap[i].targetName == snapshot.targetName 
       && arraySnap[i].functionName == snapshot.functionName ) {
       foundSnap = i;
+      snapshot.elapsedTime += arraySnap[i].elapsedTime;
     }
   }
 
@@ -164,6 +175,8 @@ export interface ISnapshot {
   output?: any;
   creationTime?: number;
   creationTimeString?: string;
+  updateTime?: number;
+  updateTimeString?: string;
   elapsedTime?: number;
   isPrototype?: boolean;
   isCompleted?: boolean;

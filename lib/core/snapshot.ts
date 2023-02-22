@@ -26,6 +26,7 @@ export interface ISnapshot {
   creationTime?: number;
   creationTimeString?: string;
   elapsedTime?: number;
+  elapsedTimeString?: string;
   priority?: number;
   isPrototype?: boolean;
   mocks?: ISnapshot[];

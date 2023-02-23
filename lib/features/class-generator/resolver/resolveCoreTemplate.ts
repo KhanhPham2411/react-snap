@@ -7,13 +7,14 @@ const path = require("path");
 
 export const coreTemplate = `import * as fse from 'fs-extra';
 
-function updateTime(snapshot: ISnapshot) {
+function updateProperties(snapshot: ISnapshot) {
   if(snapshot.creationTime == null) {
     snapshot.creationTime = new Date().getTime();
     snapshot.creationTimeString = new Date(snapshot.creationTime).toLocaleString();
     snapshot.updateTime = snapshot.creationTime;
     snapshot.updateTimeString = snapshot.creationTimeString;
     snapshot.elapsedTime = 0;
+    snapshot.numberOfCall = 1;
   }
   else {
     snapshot.updateTime = new Date().getTime();
@@ -46,6 +47,7 @@ export function mergeMainSnapshot(snapshot: ISnapshot, filePath) {
       && arraySnap[i].functionName == snapshot.functionName ) {
       foundSnap = i;
       snapshot.elapsedTime += arraySnap[i].elapsedTime;
+      snapshot.numberOfCall += arraySnap[i].numberOfCall;
     }
   }
 
@@ -94,7 +96,7 @@ export function mergeSnapshot(snapshot: ISnapshot, filePath) {
 export function saveSnapshot(snapshot: ISnapshot) {
   const mainPath = \`__lozicode__/data/main.json\`;
 
-  updateTime(snapshot);
+  updateProperties(snapshot);
   
 	const functionPath = \`__lozicode__/data/\${snapshot.targetName}/\${snapshot.functionName}.json\`;
 
@@ -182,6 +184,7 @@ export interface ISnapshot {
   isCompleted?: boolean;
   mocks?: ISnapshot[];
   mockFunction?: any;
+  numberOfCall?: number;
 }
 `;
 

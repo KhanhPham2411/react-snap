@@ -109,6 +109,7 @@ export function mock(object, snapshot: ISnapshot) {
       return;
     }
 
+    const originalSnapshot = {...snapshot};
     const originalMethod = object[snapshot.functionName];
     object[snapshot.functionName + "__mocked"] = originalMethod;
 
@@ -117,6 +118,7 @@ export function mock(object, snapshot: ISnapshot) {
 
     if(isAsync) {
       wrapperMethod = async (...args) => {
+        snapshot = {...originalSnapshot};
         snapshot.input = args;
         snapshot.id = Math.random().toString(16).slice(2);
         saveSnapshot(snapshot);

@@ -5,7 +5,7 @@ import { resolveMockTemplate } from './resolver/resolveMockTemplate';
 import { resolveImportMockTemplate } from './resolver/resolveImportMockTemplate';
 import { resolveIgnoreTemplate } from './resolver/resolveIgnoreTemplate';
 import { resolveCoreTemplate } from './resolver/resolveCoreTemplate';
-import { parseFilepath } from '../../../../util-common/file';
+import {parseFilepath, getRelativePath} from '../../../../util-common/file';
 
 const fse = require("fs-extra");
 const fspath = require("path");
@@ -14,6 +14,7 @@ export let snapshotDirectory = "__lozicode__";
 
 export interface TestingGeneratorConfig {
   dirname?: string;
+  dirnameRelative?: string;
   snapshotDirectory?: string;
   fileName?: string;
   filePath?: string;
@@ -74,6 +75,7 @@ export class TestingGenerator {
     config.target = this.resolveTarget(snapshot, config);
     config.matchSnapshot = this.resolveMatchSnapshotTemplate(snapshot);
     config.params = this.resolveParams(snapshot);
+    config.dirnameRelative = getRelativePath({sourcePath: config.workspacePath, targetPath: config.dirname});
   }
 
   static resolveTarget(snapshot: ISnapshot, config: TestingGeneratorConfig) {
@@ -123,7 +125,7 @@ export class TestingGenerator {
       config.snapshotDirectory = snapshotDirectory;
     }
     return (
-      config.dirname + `/${config.snapshotDirectory}/${config.target}/${this.getFileName(snapshot, config)}`
+      config.workspacePath + `/${config.snapshotDirectory}/test/${config.dirnameRelative}/${config.target}/${this.getFileName(snapshot, config)}`
     );
   }
   static getFileName(snapshot: ISnapshot, config) {

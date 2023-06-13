@@ -15,7 +15,7 @@
 // }
 
 export const functionTemplateString = `
-import * as \${this.fileNameFormated} from "../../\${this.fileName}"
+import * as \${this.fileNameFormated} from "\${this.dirnameRelativeJestPath}/\${this.fileName}"
 \${this.importMock}
 
 describe("\${this.fileNameFormated}.\${this.functionName}", () =>  {
@@ -25,7 +25,7 @@ describe("\${this.fileNameFormated}.\${this.functionName}", () =>  {
   });
 })`;
 export const methodTemplateString = `
-import { \${this.className} } from "../../\${this.fileName}"
+import { \${this.className} } from "\${this.dirnameRelativeJestPath}/\${this.fileName}"
 \${this.importMock}
 
 describe("\${this.className}.\${this.functionName}", () =>  {

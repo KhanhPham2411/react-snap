@@ -15,6 +15,7 @@ export let snapshotDirectory = "__lozicode__";
 export interface TestingGeneratorConfig {
   dirname?: string;
   dirnameRelative?: string;
+  dirnameRelativeJestPath?: string;
   snapshotDirectory?: string;
   fileName?: string;
   filePath?: string;
@@ -24,6 +25,7 @@ export interface TestingGeneratorConfig {
   matchSnapshot?: string;
   params?: string;
   jestPath?: string;
+  jestPathDir?: string;
 }
 export class TestingGenerator {
   static async generate(snapshot: ISnapshot, config: TestingGeneratorConfig) {
@@ -41,6 +43,10 @@ export class TestingGenerator {
   }
   static async resolveJestTemplate(snapshot: ISnapshot, config) {
     config.jestPath = this.getJestPath(snapshot, config);
+    const { dir, name } = parseFilepath({ filePath: config.jestPath });
+    config.jestPathDir = dir;
+
+    config.dirnameRelativeJestPath = getRelativePath({sourcePath: config.jestPathDir, targetPath: config.dirname});
     config.importMock = await resolveImportMockTemplate(snapshot, config);
     
     if (fse.pathExistsSync(config.jestPath)) {

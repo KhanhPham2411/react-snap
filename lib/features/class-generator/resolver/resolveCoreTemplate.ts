@@ -24,7 +24,7 @@ function updateProperties(snapshot: ISnapshot) {
 }
 
 export function init() {
-  fse.rmSync('__lozicode__/data/main.json', { force: true });
+  fse.rmSync('data/main.json', { force: true });
 }
 
 export function mergeMainSnapshot(snapshot: ISnapshot, filePath) {
@@ -94,11 +94,11 @@ export function mergeSnapshot(snapshot: ISnapshot, filePath) {
 	tryOutputFileSync({ filePath, arraySnap });
 }
 export function saveSnapshot(snapshot: ISnapshot) {
-  const mainPath = \`__lozicode__/data/main.json\`;
+  const mainPath = \`data/main.json\`;
 
   updateProperties(snapshot);
   
-	const functionPath = \`__lozicode__/data/\${snapshot.targetName}/\${snapshot.functionName}.json\`;
+	const functionPath = \`data/\${snapshot.targetName}/\${snapshot.functionName}.json\`;
 
   mergeSnapshot(snapshot, functionPath);
   mergeMainSnapshot(snapshot, mainPath);

@@ -3,7 +3,7 @@ import { TestingGenerator, TestingGeneratorConfig } from "../testing-generator";
 import { pathExists, readAllText, writeAllText, getRelativePath, dirname } from '../../../../../util-common/file';
 const path = require('path');
 
-export const importMockTemplate = `import { mockAll } from '\${this.relative}/__lozicode__/mock';
+export const importMockTemplate = `import { mockAll, writeFileSync } from '\${this.relative}/__lozicode__/mock';
 
 mockAll();`;
 

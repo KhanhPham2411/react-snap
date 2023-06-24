@@ -7,6 +7,11 @@ const path = require('path');
 export const jestItTemplate = `it("\${this.creationTimeString} - \${this.id} - \${this.elapsedTimeString} ms", async () => {
     const actualOutput = await \${this.target}.\${this.functionName}(\${this.inputParams});
     console.log(actualOutput);
+    writeFileSync({
+      dirname: __dirname,
+      filename: 'actualOutput_\${this.id}_\${this.creationTimeString}',
+      value: actualOutput,
+    });
 
     expect(actualOutput).toBe(\${this.outputJson});
   });

@@ -6,22 +6,20 @@ import { insertMockItemTemplate } from './resolveMockItemTemplate';
 const path = require("path");
 
 export const mockTemplate = `import { mock, init } from './core';
-import fs from 'fs';
-import path from 'path';
+import * as fse from 'fs-extra';
+
 
 export function mockAll() {
   init();
 }
 
-export function writeFileSync({ dirname, filename, value }) {
-  const filePath = path.join(dirname, filename);
-  const jsonValue = JSON.stringify(value);
-  fs.writeFileSync(filePath, jsonValue);
-
-  if (typeof value === 'string') {
-    fs.writeFileSync(filePath + '.html', value);
-  } else {
-    fs.writeFileSync(filePath + '.json', jsonValue);
+export function readOutput(path) {
+  const outputPath = \`output/\${path}\`;
+  if(fse.existsSync(\`\${outputPath}.html\`)) {
+    return fse.readFileSync(\`\${outputPath}.html\`);
+  }
+  if(fse.existsSync(\`\${outputPath}.json\`)) {
+    return fse.readJsonSync(\`\${outputPath}.json\`);
   }
 }
 

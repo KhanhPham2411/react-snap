@@ -36,7 +36,7 @@ export function mergeMainSnapshot(snapshot: ISnapshot, filePath) {
   for(let i=0; i<arraySnap.length; i++) {
     if(arraySnap[i].id == snapshot.id) {
       arraySnap[i] = {...snapshot};
-      tryOutputFileSync({ filePath, arraySnap });
+      tryOutputFileSync({ filePath, data: arraySnap });
       return;
     }
   }
@@ -56,15 +56,15 @@ export function mergeMainSnapshot(snapshot: ISnapshot, filePath) {
   } 
 
   arraySnap.unshift(snapshot);
-	tryOutputFileSync({ filePath, arraySnap });
+	tryOutputFileSync({ filePath, data: arraySnap });
 }
 
 export function tryOutputFileSync({
   filePath, 
-  arraySnap
+  data
 }) {
   try {
-    fse.outputFileSync(filePath, JSON.stringify(arraySnap, null, 2));
+    fse.outputFileSync(filePath, JSON.stringify(data, null, 2));
   }
   catch {
 
@@ -91,7 +91,7 @@ export function mergeSnapshot(snapshot: ISnapshot, filePath) {
   if(arraySnap.length > 10) {
     arraySnap.pop();
   }
-	tryOutputFileSync({ filePath, arraySnap });
+	tryOutputFileSync({ filePath, data: arraySnap });
 }
 export function saveSnapshot(snapshot: ISnapshot) {
   const mainPath = \`data/main.json\`;
@@ -103,6 +103,24 @@ export function saveSnapshot(snapshot: ISnapshot) {
   mergeSnapshot(snapshot, functionPath);
   mergeMainSnapshot(snapshot, mainPath);
 }
+
+export function saveOutput(snapshot: ISnapshot) {
+  const argv_text = process.argv.join();
+  const regex = /[0-9a-z]{9,}/g;
+  const matches = argv_text.match(regex);
+  let test_id = 'default';
+  if(matches) {
+    test_id = matches[0];
+  }
+  const outputPath = \`output/\${snapshot.targetName}/\${snapshot.functionName}/\${test_id}\`;
+
+  if (typeof snapshot.output === 'string') {
+    fse.writeFileSync(outputPath + '.html', snapshot.output);
+  } else {
+    tryOutputFileSync({ filePath: outputPath + '.json', data: snapshot.output });
+  }
+}
+
 export function mock(object, snapshot: ISnapshot) {
   try {
     if(object[snapshot.functionName + "__mocked"]) {
@@ -126,6 +144,7 @@ export function mock(object, snapshot: ISnapshot) {
         const output = await originalMethod.apply(this, args);
     
         snapshot.output = output;
+        saveOutput(snapshot);
         saveSnapshot(snapshot);
         return output;
       }
@@ -138,6 +157,7 @@ export function mock(object, snapshot: ISnapshot) {
         const output = originalMethod.apply(this, args);
     
         snapshot.output = output;
+        saveOutput(snapshot);
         saveSnapshot(snapshot);
         return output;
       }

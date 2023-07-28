@@ -115,7 +115,7 @@ export function saveOutput(snapshot: ISnapshot) {
   const outputPath = \`output/\${snapshot.targetName}/\${snapshot.functionName}/\${test_id}\`;
 
   if (typeof snapshot.output === 'string') {
-    fse.writeFileSync(outputPath + '.html', snapshot.output);
+    fse.outputFileSync(outputPath + '.html', snapshot.output);
   } else {
     tryOutputFileSync({ filePath: outputPath + '.json', data: snapshot.output });
   }

@@ -22,11 +22,7 @@ describe("\${this.fileNameFormated}.\${this.functionName}", () =>  {
   it("default", async () => {
     const actualOutput = await \${this.fileNameFormated}.\${this.functionName}(\${this.params});
     console.log(actualOutput);
-    writeFileSync({
-      dirname: __dirname,
-      filename: 'actualOutput_default',
-      value: actualOutput,
-    });
+    // readOutput('\${this.target}/\${this.functionName}/default')
   });
 })`;
 export const methodTemplateString = `
@@ -37,10 +33,6 @@ describe("\${this.className}.\${this.functionName}", () =>  {
   it("default", async () => {
     const actualOutput = await \${this.target}.\${this.functionName}(\${this.params});
     console.log(actualOutput);
-    writeFileSync({
-      dirname: __dirname,
-      filename: 'actualOutput_default',
-      value: actualOutput,
-    });
+    // readOutput('\${this.target}/\${this.functionName}/default')
   });
 })`;
